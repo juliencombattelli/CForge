@@ -38,7 +38,7 @@
             "warnings": []
         },
         {
-            "compiler_id": "GCC",
+            "compiler_id": "GNU",
             "inherit": [
                 "gnu_common",
                 "gcc_extra"
