@@ -35,25 +35,26 @@ See https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html.
 "warnings" strings may use CMake generator expressions.
 
 #]]
+
+function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
+    if(NOT ${CONFIG_FILE})
+        set(USE_DEFAULT_CONFIG ON)
+    elseif(NOT EXISTS ${${CONFIG_FILE}})
+        message(WARNING "${${CONFIG_FILE}} does not exist. Using default config file.")
+        set(USE_DEFAULT_CONFIG ON)
+    endif()
+    if(USE_DEFAULT_CONFIG)
+        set(${CONFIG_FILE} ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/default-warnings.json PARENT_SCOPE)
+    endif()
+endfunction()
+
 function(cforge_target_add_warnings TARGET_NAME)
     cmake_parse_arguments("ARG" "WARNING_AS_ERROR" "CONFIG_FILE" "" ${ARGN})
-    if(NOT ARG_CONFIG_FILE)
-        set(USE_DEFAULT_CONFIG ON)
-    elseif(NOT EXISTS ${ARG_CONFIG_FILE})
-        message(AUTHOR_WARNING "${ARG_CONFIG_FILE} does not exists. Using default profiles.")
-        set(USE_DEFAULT_CONFIG ON)
-    else()
-        set(USE_DEFAULT_CONFIG OFF)
-    endif()
 
-    if(USE_DEFAULT_CONFIG)
-        set(CONFIG_FILE ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/default-warnings.json)
-    else()
-        set(CONFIG_FILE ${ARG_CONFIG_FILE})
-    endif()
+    _use_default_warning_config_file_if_arg_not_set(ARG_CONFIG_FILE)
 
-    message(CHECK_START "Parsing warning config from file ${CONFIG_FILE}")
-    file(READ ${CONFIG_FILE} CONFIG_STRING)
+    message(CHECK_START "Parsing warning config from file ${ARG_CONFIG_FILE}")
+    file(READ ${ARG_CONFIG_FILE} CONFIG_STRING)
     list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
     string(JSON VERSION GET ${CONFIG_STRING} version)
@@ -61,7 +62,7 @@ function(cforge_target_add_warnings TARGET_NAME)
 
     string(JSON PROFILE_COUNT LENGTH ${CONFIG_STRING} profiles)
     message(STATUS "Profile count: ${PROFILE_COUNT}")
-    
+
     math(EXPR PROFILE_LAST "${PROFILE_COUNT} - 1")
     foreach(IDX RANGE ${PROFILE_LAST})
         message(STATUS "Profile #${IDX}:")
