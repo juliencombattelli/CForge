@@ -19,16 +19,6 @@
                 "-Wdouble-promotion",
                 "-Wformat=2"
             ]
-        },
-        {
-            "name": "gcc_extra",
-            "warnings": [
-                "-Wmisleading-indentation",
-                "-Wduplicated-cond",
-                "-Wduplicated-branches",
-                "-Wlogical-op",
-                "-Wuseless-cast"
-            ]
         }
     ],
     "profiles": [
@@ -39,11 +29,14 @@
         },
         {
             "compiler_id": "GNU",
-            "inherit": [
-                "gnu_common",
-                "gcc_extra"
-            ],
-            "warnings": []
+            "inherit": "gnu_common",
+            "warnings": [
+                "-Wmisleading-indentation",
+                "-Wduplicated-cond",
+                "-Wduplicated-branches",
+                "-Wlogical-op",
+                "-Wuseless-cast"
+            ]
         },
         {
             "compiler_id": "MSVC",
