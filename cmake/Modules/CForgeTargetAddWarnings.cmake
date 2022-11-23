@@ -58,10 +58,14 @@ If a base profile defines a "name", it must be unique.
 TODO There is no check on that currently. When looking for a base profile name, the parser stops
      after finding the first one.
 
-"compiler_id" must be a valid CMake compiler identification string:
+"compiler_id" must be a valid CMake compiler identification string.
 See https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html.
 
 "inherit" must be (or contain) a base profile name defined in the document.
+TODO Add cross-file inheritance.
+     If the inherited profile has the form <string>, then it must be located in the same file.
+     If it has the form of a JSON object {"name": <string>, "file": <string>}, then it must be
+     located in the mentioned file.
 
 "warnings" strings may use CMake generator expressions.
 
