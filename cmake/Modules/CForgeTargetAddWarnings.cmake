@@ -87,13 +87,44 @@ function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
     endif()
 endfunction()
 
-function(_parse_warning_config_version_1 CONFIG_STRING)
+function(_parse_base_profiles_version_1 CONFIG_STRING INHERITED_PROFILES)
     string(JSON BASE_PROFILE_COUNT LENGTH ${CONFIG_STRING} base_profiles)
     math(EXPR BASE_PROFILE_LAST "${BASE_PROFILE_COUNT} - 1")
+    foreach(INHERITED_PROFILE IN LISTS INHERITED_PROFILES)
+        # TODO
+        # if(in-file profile)
+            message(DEBUG "Searching for base profile ${INHERITED_PROFILE}")
+            foreach(IDX2 RANGE ${BASE_PROFILE_LAST})
+                string(JSON BASE_PROFILE_NAME GET ${CONFIG_STRING} base_profiles ${IDX2} name)
+                if(BASE_PROFILE_NAME STREQUAL INHERITED_PROFILE)
+                    message(DEBUG "Base profile ${INHERITED_PROFILE} found")
+                    cforge_json_get_array_as_list(
+                        RESULT_VARIABLE INHERITED_PROFILE_WARNINGS
+                        JSON ${CONFIG_STRING}
+                        MEMBER base_profiles ${IDX2} warnings
+                    )
+                    list(APPEND WARNINGS ${INHERITED_PROFILE_WARNINGS})
+                    set(BASE_PROFILE_FOUND YES)
+                    break()
+                endif()
+            endforeach()
+        # else() # out-of-file profile
+        #   # Get filename from object
+        #   # Get list of names in this other file
+        #   file(READ ${CONFIG_FILE} OTHER_CONFIG_STRING)
+        #   _parse_base_profiles_version_1(${OTHER_CONFIG_STRING} ${OTHER_INHERITED_PROFILE})
+        #   # break the loop somehow using BASE_PROFILE_FOUND
+        # endif()
+        if(NOT BASE_PROFILE_FOUND)
+            message(WARNING "Inherited base profile not found: ${INHERITED_PROFILE}")
+        endif()
+    endforeach()
+    set(WARNINGS ${WARNINGS} PARENT_SCOPE)
+endfunction()
 
+function(_parse_warning_config_version_1 CONFIG_STRING)
     string(JSON PROFILE_COUNT LENGTH ${CONFIG_STRING} profiles)
     math(EXPR PROFILE_LAST "${PROFILE_COUNT} - 1")
-
     foreach(IDX RANGE ${PROFILE_LAST})
         string(JSON COMPILER_ID GET ${CONFIG_STRING} profiles ${IDX} compiler_id)
         message(DEBUG "Compiler ID: ${COMPILER_ID}")
@@ -108,26 +139,7 @@ function(_parse_warning_config_version_1 CONFIG_STRING)
                 MEMBER profiles ${IDX} inherit
                 OPTIONAL
             )
-            foreach(INHERITED_PROFILE IN LISTS INHERITED_PROFILES)
-                message(DEBUG "Searching for base profile ${INHERITED_PROFILE}")
-                foreach(IDX2 RANGE ${BASE_PROFILE_LAST})
-                    string(JSON BASE_PROFILE_NAME GET ${CONFIG_STRING} base_profiles ${IDX2} name)
-                    if(BASE_PROFILE_NAME STREQUAL INHERITED_PROFILE)
-                        message(DEBUG "Base profile ${INHERITED_PROFILE} found")
-                        cforge_json_get_array_as_list(
-                            RESULT_VARIABLE INHERITED_PROFILE_WARNINGS
-                            JSON ${CONFIG_STRING}
-                            MEMBER base_profiles ${IDX2} warnings
-                        )
-                        list(APPEND WARNINGS ${INHERITED_PROFILE_WARNINGS})
-                        set(BASE_PROFILE_FOUND YES)
-                        break()
-                    endif()
-                endforeach()
-                if(NOT BASE_PROFILE_FOUND)
-                    message(WARNING "Inherited base profile not found: ${INHERITED_PROFILE}")
-                endif()
-            endforeach()
+            _parse_base_profiles_version_1("${CONFIG_STRING}" "${INHERITED_PROFILES}")
             cforge_json_get_array_as_list(
                 RESULT_VARIABLE PROFILE_WARNINGS
                 JSON ${CONFIG_STRING}
