@@ -1,11 +1,31 @@
 # string(JSON) introduced in CMake 3.19
 cmake_minimum_required(VERSION 3.19)
 
-include(CForgeJSON)
+#[=======================================================================[.rst:
+CForgeTargetAddWarnings
+--------
 
-#[[
+Add some warnings from a JSON config file to a CMake target.
 
-JSON config file format:
+.. command:: cforge_json_member_as_string
+
+  .. code-block:: cmake
+
+    cforge_target_add_warnings(<target-name>
+        [CONFIG_FILE <config-file>]
+        [WARNING_AS_ERROR]
+    )
+
+If the ``CONFIG_FILE`` argument is not specified, the default config file
+cmake/Modules/default-warnings.cmake will be used. This file provides a reasonable set of warnings
+for GCC, Clang and MSVC that should be enabled in all projects.
+
+The ``WARNING_AS_ERROR`` optional argument turns warnings into errors.
+TODO This is not implemented for now. Using it will cause a configuration warning.
+     It may be implemented using COMPILE_WARNING_AS_ERROR target property, requiring CMake 3.24+.
+
+JSON config file format
+^^^^^^^^^^^^^^^^^^^^^^^
 
 {
     "version": "int",
@@ -38,7 +58,11 @@ See https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html.
 
 "warnings" strings may use CMake generator expressions.
 
-#]]
+#]=======================================================================]
+
+include_guard(GLOBAL)
+
+include(CForgeJSON)
 
 function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
     if(NOT ${CONFIG_FILE})
@@ -129,7 +153,6 @@ function(cforge_target_add_warnings TARGET_NAME)
         message(FATAL_ERROR "Target ${TARGET_NAME} is not defined.")
     endif()
 
-    # TODO WARNING_AS_ERROR should be implemented using COMPILE_WARNING_AS_ERROR target property with CMake 3.24+
     if(ARG_WARNING_AS_ERROR)
         message(WARNING "`Warning as error` is not implemented for now and will be available with CMake 3.24+ only.")
     endif()
