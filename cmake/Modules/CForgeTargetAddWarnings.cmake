@@ -30,25 +30,25 @@ JSON config file format
 Header format
 """""""""""""
 {
-    "version": "int",
-    "base_profiles": [],
-    "profiles": []
+    "version": <int>,
+    "base_profiles": [...],
+    "profiles": [...]
 }
 
 Base profile object format
 """"""""""""""""""""""""""
 {
-    "name": "string",
-    "inherit": "string" or ["strings"], // optional
-    "warnings": ["strings"]
+    "name": <string>,
+    "inherit": <string> or [<string>, ...], // optional
+    "warnings": [<string>, ...]
 }
 
 Profile object format
 """""""""""""""""""""
 {
-    "compiler_id": "string",
-    "inherit": "string" or ["strings"], // optional
-    "warnings": ["strings"]
+    "compiler_id": <string>,
+    "inherit": <string> or [<string>, ...], // optional
+    "warnings": [<string>, ...]
 }
 
 Fields description
