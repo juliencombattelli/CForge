@@ -67,12 +67,11 @@ endfunction()
     )
 
 If the JSON element designated by the ``<member|index>`` arguments is not an array but a single
-value, the ``<out-var>`` list will only contain that value.
+value, the ``<out-var>`` list will only contain that value. If the value is a JSON object, the whole
+object will be stored in the list (same for array of objects).
 
 If the JSON element is not found and the ``OPTIONAL`` boolean argument is used, then the returned
 list ``<out-var>`` will be empty. Otherwise a fatal error is thrown.
-
-TODO Test how OBJECTs are handled with the current implementation.
 
 #]=======================================================================]
 function(cforge_json_get_array_as_list)
@@ -94,7 +93,7 @@ function(cforge_json_get_array_as_list)
             "   ${ERROR}\n"
         )
     elseif(NOT ERROR)
-        if(MEMBER_TYPE STREQUAL "ARRAY" OR MEMBER_TYPE STREQUAL "OBJECT")
+        if(MEMBER_TYPE STREQUAL "ARRAY")
             string(JSON ARRAY_LEN LENGTH ${ARG_JSON} ${ARG_MEMBER})
             if(ARRAY_LEN GREATER 0)
                 math(EXPR ARRAY_LAST "${ARRAY_LEN} - 1")
