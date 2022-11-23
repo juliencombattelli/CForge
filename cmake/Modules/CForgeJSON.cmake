@@ -1,9 +1,40 @@
 # string(JSON) introduced in CMake 3.19
 cmake_minimum_required(VERSION 3.19)
 
-#[[
+#[=======================================================================[.rst:
+CForgeJSON
+--------
 
-#]]
+Helper functions for parsing JSON strings in CMake scripts.
+
+#]=======================================================================]
+
+include_guard(GLOBAL)
+
+#[=======================================================================[.rst:
+.. command:: cforge_json_member_as_string
+
+  Convert a CMake JSON member list into a more readable JSON member path.
+  Named members will add ``.member``, whereas indexes will add a subscript ``[index]`` to the result
+  variable.
+
+  .. code-block:: cmake
+
+    cforge_json_member_as_string(
+        RESULT_VARIABLE <out-var>
+        MEMBER <member|index> [<member|index> ...]
+    )
+
+Example invocation:
+
+.. code-block:: cmake
+
+  cforge_json_member_as_string(RESULT_VARIABLE MEMBER_STRING MEMBER abc def 2 ghi)
+
+The member list ``abc def 2 ghi`` will be converted into ``abc.def[2].ghi`` and stored into
+MEMBER_STRING variable.
+
+#]=======================================================================]
 function(cforge_json_member_as_string)
     cmake_parse_arguments("ARG" "" "RESULT_VARIABLE" "MEMBER" ${ARGN})
     if(ARG_UNPARSED_ARGUMENTS)
@@ -20,20 +51,30 @@ function(cforge_json_member_as_string)
     set(${ARG_RESULT_VARIABLE} "${MEMBER_PATH}" PARENT_SCOPE)
 endfunction()
 
-#[[
+#[=======================================================================[.rst:
+.. command:: cforge_json_get_array_as_list
 
-    cforge_json_get_array_as_list(<out-var> <json-string> <member|index> [<member|index> ...])
+  Get an array from ``<json-string>`` at the location given by the list of ``<member|index>``
+  arguments and copy its elements into the list variable ``<out-var>``.
 
-Get an array from <json-string> at the location given by the list of <member|index> arguments
-and copy its elements into the list variable <out-var>.
-If the JSON element designated by the <member|index> arguments is not an array but a single value,
-the <out-var> list will only contain that value.
-If the JSON element is not found and the OPTIONAL boolean argument is used, then the returned list
-<out-var> will be empty. Otherwise a fatal error is thrown.
+  .. code-block:: cmake
+
+    cforge_json_get_array_as_list(
+        RESULT_VARIABLE <out-var>
+        JSON <json-string>
+        MEMBER <member|index> [<member|index> ...]
+        [OPTIONAL]
+    )
+
+If the JSON element designated by the ``<member|index>`` arguments is not an array but a single
+value, the ``<out-var>`` list will only contain that value.
+
+If the JSON element is not found and the ``OPTIONAL`` boolean argument is used, then the returned
+list ``<out-var>`` will be empty. Otherwise a fatal error is thrown.
 
 TODO Test how OBJECTs are handled with the current implementation.
 
-#]]
+#]=======================================================================]
 function(cforge_json_get_array_as_list)
     cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;JSON" "MEMBER" ${ARGN})
 
