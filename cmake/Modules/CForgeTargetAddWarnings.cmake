@@ -27,25 +27,32 @@ TODO This is not implemented for now. Using it will cause a configuration warnin
 JSON config file format
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+Header format
+"""""""""""""
 {
     "version": "int",
     "base_profiles": [],
     "profiles": []
 }
 
-Base profile object format:
+Base profile object format
+""""""""""""""""""""""""""
 {
     "name": "string",
     "inherit": "string" or ["strings"], // optional
     "warnings": ["strings"]
 }
 
-Profile object format:
+Profile object format
+"""""""""""""""""""""
 {
     "compiler_id": "string",
     "inherit": "string" or ["strings"], // optional
     "warnings": ["strings"]
 }
+
+Fields description
+""""""""""""""""""
 
 If a base profile defines a "name", it must be unique.
 TODO There is no check on that currently. When looking for a base profile name, the parser stops
