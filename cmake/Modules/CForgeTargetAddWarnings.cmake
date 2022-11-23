@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.19)
 
 #[=======================================================================[.rst:
 CForgeTargetAddWarnings
---------
+-----------------------
 
 Add some warnings from a JSON config file to a CMake target.
 
