@@ -1,0 +1,12 @@
+include_guard(GLOBAL)
+
+function(cforge_assert)
+    cmake_parse_arguments("ARG" "" "MESSAGE" "CONDITION" ${ARGN})
+    if(NOT (${ARG_CONDITION}))
+        set(MESSAGE "Assertion failed")
+        if(ARG_MESSAGE)
+            string(APPEND MESSAGE ": ${ARG_MESSAGE}")
+        endif()
+        message(FATAL_ERROR "${MESSAGE}")
+    endif()
+endfunction()

@@ -1,3 +1,8 @@
+include(CForgeUnit)
+
+cforge_unit_add_test_subdirectory(CForgeAssert USE_CTEST)
+
+
 include(CForgeTargetAddWarnings)
 
 add_library(toto INTERFACE)
