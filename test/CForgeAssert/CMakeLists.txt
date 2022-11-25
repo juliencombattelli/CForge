@@ -4,12 +4,12 @@ list(APPEND CMAKE_MODULE_PATH ../../cmake/Modules)
 include(CForgeUnit)
 
 cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass
-    TEST_SCRIPT ./TestCaseSuccess.cmake
+    TEST_SCRIPT ./Success.test.cmake
 )
 
 cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass_with_message
-    TEST_SCRIPT ./TestCaseSuccessWithMessage.cmake
-    VERIFY_SCRIPT ./TestCaseSuccessWithMessage.verify.cmake
+    TEST_SCRIPT ./SuccessWithMessage.test.cmake
+    VERIFY_SCRIPT ./SuccessWithMessage.verify.cmake
 )
 
 function(test_case_failure_verify VERIFY_RESULT)
@@ -22,13 +22,13 @@ function(test_case_failure_verify VERIFY_RESULT)
 endfunction()
 
 cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_fail
-    TEST_SCRIPT ./TestCaseFailure.cmake
+    TEST_SCRIPT ./Failure.test.cmake
     TEST_SHALL_FAIL
     VERIFY_COMMAND test_case_failure_verify
 )
 
 cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_fail_with_message
-    TEST_SCRIPT ./TestCaseFailureWithMessage.cmake
+    TEST_SCRIPT ./FailureWithMessage.test.cmake
     TEST_SHALL_FAIL
-    VERIFY_SCRIPT ./TestCaseFailureWithMessage.verify.cmake
+    VERIFY_SCRIPT ./FailureWithMessage.verify.cmake
 )
