@@ -7,11 +7,10 @@ cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass
     TEST_SCRIPT ./TestCaseSuccess.cmake
 )
 
-# TODO implement
-# cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass_with_message
-#     TEST_SCRIPT ./TestCaseSuccessWithMessage.cmake
-#     VERIFY_COMMAND <verify that `message` is not visible>
-# )
+cforge_unit_run_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass_with_message
+    TEST_SCRIPT ./TestCaseSuccessWithMessage.cmake
+    VERIFY_SCRIPT ./TestCaseSuccessWithMessage.verify.cmake
+)
 
 function(test_case_failure_verify VERIFY_RESULT)
     file(READ ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE} ERROR_STR)
