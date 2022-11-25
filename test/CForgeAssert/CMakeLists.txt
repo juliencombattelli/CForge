@@ -1,8 +1,3 @@
-project(CForgeAssertTest LANGUAGES NONE) # No language to speed-up configuration time
-
-list(APPEND CMAKE_MODULE_PATH ../../cmake/Modules)
-include(CForgeUnit)
-
 cforge_unit_add_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass
     TEST_SCRIPT ./Success.test.cmake
 )
@@ -12,19 +7,10 @@ cforge_unit_add_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass_with_messa
     VERIFY_SCRIPT ./SuccessWithMessage.verify.cmake
 )
 
-function(test_case_failure_verify VERIFY_RESULT)
-    file(READ ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE} ERROR_STR)
-    string(REGEX MATCH "  Assertion failed" MATCH ${ERROR_STR})
-    if(NOT MATCH)
-        message(SEND_ERROR "Test failed")
-        set(VERIFY_RESULT 1 PARENT_SCOPE)
-    endif()
-endfunction()
-
 cforge_unit_add_test(TEST_SUITE CForgeAssert TEST_CASE assertion_fail
     TEST_SCRIPT ./Failure.test.cmake
     TEST_SHALL_FAIL
-    VERIFY_COMMAND test_case_failure_verify
+    VERIFY_SCRIPT ./Failure.verify.cmake
 )
 
 cforge_unit_add_test(TEST_SUITE CForgeAssert TEST_CASE assertion_fail_with_message

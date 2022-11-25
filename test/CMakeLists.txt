@@ -1,7 +1,6 @@
 include(CForgeUnit)
 
-cforge_unit_add_test_subdirectory(CForgeAssert USE_CTEST)
-
+add_subdirectory(CForgeAssert)
 
 cforge_unit_run_tests()
 
