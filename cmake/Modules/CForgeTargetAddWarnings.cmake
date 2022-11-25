@@ -87,11 +87,18 @@ function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
     endif()
 endfunction()
 
+function(_is_in_file_base_profile BASE_PROFILE RESULT)
+    message("Base profile is ${BASE_PROFILE}")
+    string(JSON TYPE TYPE ${BASE_PROFILE})
+    message("Type of base profile is ${TYPE}")
+endfunction()
+
 function(_parse_base_profiles_version_1 CONFIG_STRING INHERITED_PROFILES)
     string(JSON BASE_PROFILE_COUNT LENGTH ${CONFIG_STRING} base_profiles)
     math(EXPR BASE_PROFILE_LAST "${BASE_PROFILE_COUNT} - 1")
     foreach(INHERITED_PROFILE IN LISTS INHERITED_PROFILES)
         # TODO
+        _is_in_file_base_profile(${INHERITED_PROFILE} IS_IN_FILE)
         # if(in-file profile)
             message(DEBUG "Searching for base profile ${INHERITED_PROFILE}")
             foreach(IDX2 RANGE ${BASE_PROFILE_LAST})

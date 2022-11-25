@@ -40,7 +40,10 @@
         {
             "compiler_id": "GNU",
             "inherit": [
-                "gnu_common",
+                {
+                    "name": "gnu_common",
+                    "file": "toto.json"
+                },
                 "gcc_extra"
             ],
             "warnings": []

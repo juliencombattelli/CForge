@@ -29,7 +29,12 @@
         },
         {
             "compiler_id": "GNU",
-            "inherit": "gnu_common",
+            "inherit": [
+                {
+                    "name": "gnu_common",
+                    "file": "toto.json"
+                }
+            ],
             "warnings": [
                 "-Wmisleading-indentation",
                 "-Wduplicated-cond",
