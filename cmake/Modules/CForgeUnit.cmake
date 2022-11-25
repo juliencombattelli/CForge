@@ -23,6 +23,9 @@ function(cforge_unit_run_test)
 
     message(CHECK_START "Running test ${ARG_TEST_SUITE}.${ARG_TEST_CASE}")
 
+    # TODO Use JSON for tests registration and execution stats
+    # TODO Use TEST_SUITE and TEST_CASE to automatically search for the scripts
+
     # Run test phase
 
     if(ARG_TEST_SCRIPT)
