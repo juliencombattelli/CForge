@@ -21,20 +21,22 @@ function(cforge_unit_run_test)
         message(FATAL_ERROR "Either TEST_SCRIPT or TEST_COMMAND argument must be specified")
     endif()
 
-    message(CHECK_START "Running test ${ARG_TEST_SUITE} - ${ARG_TEST_CASE}")
+    message(CHECK_START "Running test ${ARG_TEST_SUITE}.${ARG_TEST_CASE}")
+
+    # Run test phase
 
     if(ARG_TEST_SCRIPT)
         # TODO check availability of script
         string(MAKE_C_IDENTIFIER "${ARG_TEST_SCRIPT}" SCRIPT_ID)
         get_filename_component(SCRIPT_PATH "${ARG_TEST_SCRIPT}" ABSOLUTE)
         get_filename_component(SCRIPT_DIRECTORY "${SCRIPT_PATH}" DIRECTORY)
-        set(CFORGE_UNIT_CURRENT_OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.output.txt)
-        set(CFORGE_UNIT_CURRENT_ERROR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.error.txt)
+        set(CFORGE_UNIT_CURRENT_TEST_OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.output.txt)
+        set(CFORGE_UNIT_CURRENT_TEST_ERROR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.error.txt)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -P ${ARG_TEST_SCRIPT}
             WORKING_DIRECTORY "${SCRIPT_DIRECTORY}"
-            OUTPUT_FILE ${CFORGE_UNIT_CURRENT_OUTPUT_FILE}
-            ERROR_FILE ${CFORGE_UNIT_CURRENT_ERROR_FILE}
+            OUTPUT_FILE ${CFORGE_UNIT_CURRENT_TEST_OUTPUT_FILE}
+            ERROR_FILE ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE}
             RESULT_VARIABLE TEST_RESULT
         )
         if(NOT ARG_TEST_SHALL_FAIL AND NOT TEST_RESULT EQUAL 0)
@@ -59,6 +61,30 @@ function(cforge_unit_run_test)
         endif()
     endif()
 
+    # Run verification phase
+
+    if(ARG_VERIFY_SCRIPT)
+        # TODO check availability of script
+        string(MAKE_C_IDENTIFIER "${ARG_VERIFY_SCRIPT}" SCRIPT_ID)
+        get_filename_component(SCRIPT_PATH "${ARG_VERIFY_SCRIPT}" ABSOLUTE)
+        get_filename_component(SCRIPT_DIRECTORY "${SCRIPT_PATH}" DIRECTORY)
+        set(CFORGE_UNIT_CURRENT_VERIFY_OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.output.txt)
+        set(CFORGE_UNIT_CURRENT_VERIFY_ERROR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.error.txt)
+        execute_process(
+            COMMAND ${CMAKE_COMMAND}
+                -D CFORGE_UNIT_CURRENT_TEST_OUTPUT_FILE=${CFORGE_UNIT_CURRENT_TEST_OUTPUT_FILE}
+                -D CFORGE_UNIT_CURRENT_TEST_ERROR_FILE=${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE}
+                -P ${ARG_VERIFY_SCRIPT}
+            WORKING_DIRECTORY "${SCRIPT_DIRECTORY}"
+            OUTPUT_FILE ${CFORGE_UNIT_CURRENT_VERIFY_OUTPUT_FILE}
+            ERROR_FILE ${CFORGE_UNIT_CURRENT_VERIFY_ERROR_FILE}
+            RESULT_VARIABLE VERIFY_RESULT
+        )
+        if(VERIFY_RESULT AND NOT VERIFY_RESULT EQUAL 0)
+            set(VERIFY_FAILED YES)
+        endif()
+    endif()
+
     if(ARG_VERIFY_COMMAND)
         if(COMMAND ${ARG_VERIFY_COMMAND})
             cmake_language(CALL ${ARG_VERIFY_COMMAND} VERIFY_RESULT)
@@ -69,6 +95,8 @@ function(cforge_unit_run_test)
             message(FATAL_ERROR "Argument VERIFY_COMMAND is not a known CMake command (${ARG_VERIFY_COMMAND}).")
         endif()
     endif()
+
+    # Print test verdict
 
     if(TEST_FAILED OR VERIFY_FAILED)
         message(CHECK_FAIL "failed")
