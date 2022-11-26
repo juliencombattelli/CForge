@@ -15,7 +15,7 @@ function(_cforge_unit_test_fn)
         set(CFORGE_UNIT_CURRENT_TEST_ERROR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT_ID}.test.error.txt)
         get_filename_component(SCRIPT_DIRECTORY "${ARG_TEST_SCRIPT}" DIRECTORY)
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -P ${ARG_TEST_SCRIPT}
+            COMMAND ${CMAKE_COMMAND} -P ${ARG_TEST_SCRIPT} # TODO do not use script mode
             WORKING_DIRECTORY "${SCRIPT_DIRECTORY}"
             OUTPUT_FILE ${CFORGE_UNIT_CURRENT_TEST_OUTPUT_FILE}
             ERROR_FILE ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE}
