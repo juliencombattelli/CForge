@@ -73,7 +73,7 @@ If the JSON element designated by the ``<member|index>`` arguments is not an arr
 value, the ``<out-var>`` list will only contain that value.
 
 If the values are JSON objects, the whole objects will be stored in the list ``<objects-out-var>``
-for later parsing. If this ``RESULT_VARIABLE_OBJECTS`` argument is not provided, the objects will be
+for later processing. If the ``RESULT_VARIABLE_OBJECTS`` argument is not provided, the objects will be
 silently skipped.
 
 If the JSON element designated by the ``<member|index>`` arguments is not found and the ``OPTIONAL``
@@ -84,13 +84,12 @@ Otherwise a fatal error is thrown.
 function(cforge_json_get_array_as_list)
     cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;RESULT_VARIABLE_OBJECTS;JSON" "MEMBER" ${ARGN})
 
-    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_JSON AND ARG_MEMBER MESSAGE "Aie")
-    #cforge_assert(ARG_RESULT_VARIABLE_OBJECTS)
-    # if(NOT ARG_RESULT_VARIABLE OR NOT ARG_MEMBER OR NOT ARG_JSON)
-    #     message(FATAL_ERROR "All non-boolean arguments are required")
-    # endif()
+    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_JSON AND ARG_MEMBER MESSAGE "Missing required argument")
 
     unset(${ARG_RESULT_VARIABLE})
+    if(ARG_RESULT_VARIABLE_OBJECTS)
+        unset(${ARG_RESULT_VARIABLE_OBJECTS})
+    endif()
 
     string(JSON MEMBER_TYPE ERROR_VARIABLE ERROR TYPE ${ARG_JSON} ${ARG_MEMBER})
 
@@ -113,6 +112,7 @@ function(cforge_json_get_array_as_list)
             endif()
         elseif(MEMBER_TYPE STREQUAL "OBJECT")
             if(ARG_RESULT_VARIABLE_OBJECTS)
+                # TODO handle objects
             endif()
         else()
             string(JSON SINGLE_ITEM GET ${ARG_JSON} ${ARG_MEMBER})
