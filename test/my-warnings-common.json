@@ -31,22 +31,5 @@
             ]
         }
     ],
-    "profiles": [
-        {
-            "compiler_id": "Clang",
-            "inherit": "gnu_common",
-            "warnings": []
-        },
-        {
-            "compiler_id": "GNU",
-            "inherit": [
-                {
-                    "name": "gnu_common",
-                    "file": "my-warnings-common.json"
-                },
-                "gcc_extra"
-            ],
-            "warnings": []
-        }
-    ]
+    "profiles": []
 }

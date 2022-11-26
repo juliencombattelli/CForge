@@ -88,19 +88,23 @@ function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
 endfunction()
 
 function(_is_in_file_base_profile BASE_PROFILE RESULT)
-    message("Base profile is ${BASE_PROFILE}")
-    string(JSON TYPE TYPE ${BASE_PROFILE})
-    message("Type of base profile is ${TYPE}")
+    string(JSON TYPE ERROR_VARIABLE _ TYPE ${BASE_PROFILE})
+    # _ is used to avoid a fatal error for in-file profiles that are simple strings, not valid JSON strings
+    if(TYPE STREQUAL "OBJECT")
+        set(${RESULT} FALSE PARENT_SCOPE)
+    else()
+        set(${RESULT} TRUE PARENT_SCOPE)
+    endif()
 endfunction()
 
 function(_parse_base_profiles_version_1 CONFIG_STRING INHERITED_PROFILES)
     string(JSON BASE_PROFILE_COUNT LENGTH ${CONFIG_STRING} base_profiles)
     math(EXPR BASE_PROFILE_LAST "${BASE_PROFILE_COUNT} - 1")
     foreach(INHERITED_PROFILE IN LISTS INHERITED_PROFILES)
-        # TODO
+        message(DEBUG "Searching for base profile ${INHERITED_PROFILE}")
         _is_in_file_base_profile(${INHERITED_PROFILE} IS_IN_FILE)
-        # if(in-file profile)
-            message(DEBUG "Searching for base profile ${INHERITED_PROFILE}")
+        message(DEBUG "Base profile defined locally: ${IS_IN_FILE}")
+        if(IS_IN_FILE)
             foreach(IDX2 RANGE ${BASE_PROFILE_LAST})
                 string(JSON BASE_PROFILE_NAME GET ${CONFIG_STRING} base_profiles ${IDX2} name)
                 if(BASE_PROFILE_NAME STREQUAL INHERITED_PROFILE)
@@ -112,16 +116,25 @@ function(_parse_base_profiles_version_1 CONFIG_STRING INHERITED_PROFILES)
                     )
                     list(APPEND WARNINGS ${INHERITED_PROFILE_WARNINGS})
                     set(BASE_PROFILE_FOUND YES)
+                    set(BASE_PROFILE_FOUND ${BASE_PROFILE_FOUND} PARENT_SCOPE)
                     break()
                 endif()
             endforeach()
-        # else() # out-of-file profile
-        #   # Get filename from object
-        #   # Get list of names in this other file
-        #   file(READ ${CONFIG_FILE} OTHER_CONFIG_STRING)
-        #   _parse_base_profiles_version_1(${OTHER_CONFIG_STRING} ${OTHER_INHERITED_PROFILE})
-        #   # break the loop somehow using BASE_PROFILE_FOUND
-        # endif()
+        else() # out-of-file profile
+            # TODO support multiple profiles for one file
+            # Get base profile name and location from object
+            string(JSON BASE_PROFILE_NAME GET ${INHERITED_PROFILE} name)
+            string(JSON FILE_NAME GET ${INHERITED_PROFILE} file)
+            get_filename_component(FILE_NAME "${FILE_NAME}" ABSOLUTE)
+            message(DEBUG "Base profile ${BASE_PROFILE_NAME} in ${FILE_NAME}")
+            if(NOT EXISTS ${FILE_NAME})
+                message(FATAL_ERROR "Error searching base profile ${BASE_PROFILE_NAME}: file ${FILE_NAME} not found")
+            endif()
+            # Get list of names in this other file
+            file(READ ${FILE_NAME} OTHER_CONFIG_STRING)
+            # Parse the file
+            _parse_base_profiles_version_1(${OTHER_CONFIG_STRING} ${BASE_PROFILE_NAME})
+        endif()
         if(NOT BASE_PROFILE_FOUND)
             message(WARNING "Inherited base profile not found: ${INHERITED_PROFILE}")
         endif()
