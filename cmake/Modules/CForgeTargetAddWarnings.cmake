@@ -31,15 +31,15 @@ Header format
 """""""""""""
 {
     "version": <int>,
-    "base_profiles": [...],
-    "profiles": [...]
+    "base_profiles": [<base profile object>, ...],
+    "profiles": [<profile object>, ...]
 }
 
 Base profile object format
 """"""""""""""""""""""""""
 {
     "name": <string>,
-    "inherit": <string> or [<string>, ...], // optional
+    "inherit": [<string>, ...], // optional
     "warnings": [<string>, ...]
 }
 
@@ -47,8 +47,15 @@ Profile object format
 """""""""""""""""""""
 {
     "compiler_id": <string>,
-    "inherit": <string> or [<string>, ...], // optional
+    "inherit": [<string> or <cross-file inheritance object>, ...], // optional
     "warnings": [<string>, ...]
+}
+
+Cross-file inheritance object format
+""""""""""""""""""""""""""""""""""""
+{
+    "base_profiles": [<string>, ...],
+    "file": <string>
 }
 
 Fields description
@@ -61,13 +68,12 @@ TODO There is no check on that currently. When looking for a base profile name, 
 "compiler_id" must be a valid CMake compiler identification string.
 See https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html.
 
-"inherit" must be (or contain) a base profile name defined in the document.
-TODO Add cross-file inheritance.
-     If the inherited profile has the form <string>, then it must be located in the same file.
-     If it has the form of a JSON object {"name": <string>, "file": <string>}, then it must be
-     located in the mentioned file.
+"inherit" must contain base profile names defined in the same document or objects grouping profile names and their
+definition file.
 
 "warnings" strings may use CMake generator expressions.
+
+TODO remove capability to use a single element instead of an array. Should simplify the parsing.
 
 #]=======================================================================]
 
