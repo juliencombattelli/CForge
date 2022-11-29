@@ -81,7 +81,7 @@ function(cforge_unit_add_test)
     set(TEST_ID "${CFORGE_UNIT_PROJECT}__${ARG_TEST_SUITE}__${ARG_TEST_CASE}")
 
     configure_file(
-        ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnitTestRunner.cmake.in
+        ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/RunTest.cmake.in
         ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}.cmake
         @ONLY
     )
@@ -90,7 +90,7 @@ function(cforge_unit_add_test)
         # Register test for deferred invokation using CTest
         unset(CFORGE_UNIT_SUITES_${CFORGE_UNIT_PROJECT} CACHE)
         configure_file(
-            ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnitTestRunner.CMakeLists.txt.in
+            ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/CTestRunner.CMakeLists.txt.in
             ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}/CMakeLists.txt
             @ONLY
         )
@@ -115,7 +115,7 @@ function(cforge_unit_run_tests)
             list(APPEND CMAKE_MESSAGE_INDENT "  ")
             message(CHECK_START "Running test ${SUITE}.${CASE}")
             include(${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${CFORGE_UNIT_PROJECT}__${SUITE}__${CASE}.cmake)
-            _cforge_unit_test_fn()
+            _cforge_unit_run_test()
             if(CFORGE_UNIT_VERDICT_${CFORGE_UNIT_PROJECT}__${SUITE}__${CASE} STREQUAL failed)
                 message(CHECK_FAIL "failed")
             else()

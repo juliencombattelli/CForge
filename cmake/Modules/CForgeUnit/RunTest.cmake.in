@@ -1,4 +1,4 @@
-function(_cforge_unit_test_fn)
+function(_cforge_unit_run_test)
     # TODO Use TEST_SUITE and TEST_CASE to automatically search for the scripts
     set(ARG_TEST_SHALL_FAIL @ARG_TEST_SHALL_FAIL@)
     set(ARG_TEST_SUITE @ARG_TEST_SUITE@)
