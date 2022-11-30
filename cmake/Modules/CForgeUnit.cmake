@@ -18,8 +18,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/CForgeUnit/CForgeUnitDetails.cmake)
 function(cforge_unit_add_test)
     cmake_parse_arguments("ARG"
         "USE_CTEST;TEST_SHALL_FAIL"
-        "TEST_SUITE;TEST_CASE"
-        "TEST_SCRIPT;VERIFY_SCRIPT"
+        "TEST_SUITE;TEST_CASE;TEST_SCRIPT;VERIFY_SCRIPT"
+        ""
         ${ARGN}
     )
 
