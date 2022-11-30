@@ -10,16 +10,15 @@ include_guard()
 include(${CMAKE_CURRENT_LIST_DIR}/CForgeUnit/CForgeUnitDetails.cmake)
 
 # TEST_SCRIPT: script to run the test (unit test execution and assertions if applicable)
-# TEST_COMMAND: command to run the test (unit test execution and assertions if applicable)
 # VERIFY_SCRIPT: script to do post test execution processing (like log analysis)
-# VERIFY_COMMAND: command to do post test execution processing (like log analysis)
 # TEST_SHALL_FAIL: whether the TEST_SCRIPT is expected to fail (useful if fatal error occur in test script)
 # USE_CTEST: execute the test during ctest instead of configuration
+# LANGUAGES: Languages enabled during the test phase (default NONE)
 function(cforge_unit_add_test)
     cmake_parse_arguments("ARG"
         "USE_CTEST;TEST_SHALL_FAIL"
         "TEST_SUITE;TEST_CASE;TEST_SCRIPT;VERIFY_SCRIPT"
-        ""
+        "LANGUAGES"
         ${ARGN}
     )
 
