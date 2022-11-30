@@ -1,3 +1,5 @@
+# TODO rename scripts and rely on automatic detection
+
 cforge_unit_add_test(TEST_SUITE CForgeAssert TEST_CASE assertion_pass
     TEST_SCRIPT ./Success.test.cmake
 )

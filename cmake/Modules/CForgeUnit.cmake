@@ -32,18 +32,37 @@ function(cforge_unit_add_test)
         message(FATAL_ERROR "TEST_SCRIPT argument is required")
     endif()
 
+    if(NOT ARG_LANGUAGES)
+        set(ARG_LANGUAGES NONE)
+    endif()
+
     if(DEFINED CFORGE_UNIT_USE_CTEST)
         set(ARG_USE_CTEST ${CFORGE_UNIT_USE_CTEST})
     endif()
 
-    # TODO check availability of scripts
-
-    if(ARG_TEST_SCRIPT)
-        get_filename_component(ARG_TEST_SCRIPT "${ARG_TEST_SCRIPT}" ABSOLUTE)
+    if(NOT ARG_TEST_SCRIPT)
+        set(ARG_TEST_SCRIPT "${TEST_CASE}.test.cmake")
+    endif()
+    get_filename_component(ARG_TEST_SCRIPT "${ARG_TEST_SCRIPT}" ABSOLUTE)
+    if(NOT EXISTS "${ARG_TEST_SCRIPT}")
+        message(FATAL_ERROR "Test script file not found: ${ARG_TEST_SCRIPT}")
     endif()
 
     if(ARG_VERIFY_SCRIPT)
-        get_filename_component(ARG_VERIFY_SCRIPT "${ARG_VERIFY_SCRIPT}" ABSOLUTE)
+        set(VERIFY_SCRIPT_SPECIFIED TRUE)
+    else()
+        set(VERIFY_SCRIPT_SPECIFIED FALSE)
+        set(ARG_VERIFY_SCRIPT "${TEST_CASE}.verify.cmake")
+    endif()
+    get_filename_component(ARG_VERIFY_SCRIPT "${ARG_VERIFY_SCRIPT}" ABSOLUTE)
+    # VERIFY_SCRIPT is optional, so if it is not found:
+    #   - a fatal error is shown if it is explicitly specified
+    #   - otherwise the variable is just unset
+    if(NOT EXISTS "${ARG_VERIFY_SCRIPT}")
+        if(VERIFY_SCRIPT_SPECIFIED)
+            message(FATAL_ERROR "Verify script file not found: ${ARG_VERIFY_SCRIPT}")
+        endif()
+        unset(ARG_VERIFY_SCRIPT)
     endif()
 
     _cforge_unit_set_context("${ARG_TEST_SUITE}" "${ARG_TEST_CASE}")
