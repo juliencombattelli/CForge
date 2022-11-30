@@ -1,9 +1,0 @@
-cmake_minimum_required(VERSION 3.20)
-project(_cforge_unit_ctest_project LANGUAGES NONE)
-
-set(TEST_ID @TEST_ID@)
-
-include(@CMAKE_CURRENT_FUNCTION_LIST_DIR@/CForgeUnit.cmake)
-include(../${TEST_ID}.cmake)
-
-_cforge_unit_run_test()

@@ -41,11 +41,30 @@ function(_cforge_unit_register_test TEST_SUITE TEST_CASE)
     _cforge_unit_report_verdict(${TEST_SUITE} ${TEST_CASE} unknown)
 endfunction()
 
+macro(_cforge_unit_set_context SUITE CASE)
+    # Public variables that should be in ContextCache.cmake.in
+    # TODO add documentation in .rst file
+    # Path to the top level of the CForge build tree for the current project
+    set(CFORGE_UNIT_PROJECT_BINARY_DIR "${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit")
+    # Test ID for the current CForge test being processed
+    set(CFORGE_UNIT_CURRENT_TEST_ID "${CFORGE_UNIT_PROJECT}__${SUITE}__${CASE}")
+    # Path to the build tree of the test being processed
+    set(CFORGE_UNIT_CURRENT_TEST_BINARY_DIR
+        "${CFORGE_UNIT_PROJECT_BINARY_DIR}/${CFORGE_UNIT_CURRENT_TEST_ID}"
+    )
+
+    # Private variables that should not be in ContextCache.cmake.in
+    set(_CFORGE_UNIT_TEMPLATE_DIR "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit")
+    set(_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/scripts")
+    set(_CFORGE_UNIT_CURRENT_TEST_CTEST_BINARY_DIR "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/build-ctest")
+endmacro()
+
 # TEST_SCRIPT: script to run the test (unit test execution and assertions if applicable)
 # TEST_COMMAND: command to run the test (unit test execution and assertions if applicable)
 # VERIFY_SCRIPT: script to do post test execution processing (like log analysis)
 # VERIFY_COMMAND: command to do post test execution processing (like log analysis)
 # TEST_SHALL_FAIL: whether the TEST_SCRIPT is expected to fail (useful if fatal error occur in test script)
+# USE_CTEST: execute the test during ctest instead of configuration
 function(cforge_unit_add_test)
     cmake_parse_arguments("ARG"
         "USE_CTEST;TEST_SHALL_FAIL"
@@ -78,27 +97,35 @@ function(cforge_unit_add_test)
         get_filename_component(ARG_VERIFY_SCRIPT "${ARG_VERIFY_SCRIPT}" ABSOLUTE)
     endif()
 
-    set(TEST_ID "${CFORGE_UNIT_PROJECT}__${ARG_TEST_SUITE}__${ARG_TEST_CASE}")
+    _cforge_unit_set_context("${ARG_TEST_SUITE}" "${ARG_TEST_CASE}")
 
     configure_file(
-        ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/RunTest.cmake.in
-        ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}.cmake
+        "${_CFORGE_UNIT_TEMPLATE_DIR}/ContextCache.cmake.in"
+        "${_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR}/ContextCache.cmake"
+        @ONLY
+    )
+
+    configure_file(
+        "${_CFORGE_UNIT_TEMPLATE_DIR}/RunTest.CMakeLists.txt.in"
+        "${_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR}/CMakeLists.txt"
+        @ONLY
+    )
+
+    configure_file(
+        "${_CFORGE_UNIT_TEMPLATE_DIR}/RunTest.cmake.in"
+        "${_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR}/RunTest.cmake"
         @ONLY
     )
 
     if(ARG_USE_CTEST)
         # Register test for deferred invokation using CTest
         unset(CFORGE_UNIT_SUITES_${CFORGE_UNIT_PROJECT} CACHE)
-        configure_file(
-            ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/CTestRunner.CMakeLists.txt.in
-            ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}/CMakeLists.txt
-            @ONLY
-        )
         add_test(
-            NAME "${TEST_ID}"
+            NAME "${CFORGE_UNIT_CURRENT_TEST_ID}"
             COMMAND ${CMAKE_COMMAND}
-                -S "${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}"
-                -B "${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${TEST_ID}/build"
+                -C "${_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR}/ContextCache.cmake"
+                -S "${_CFORGE_UNIT_TEMPLATE_DIR}/CTestRunner"
+                -B "${_CFORGE_UNIT_CURRENT_TEST_CTEST_BINARY_DIR}"
         )
     else()
         # Register test for immediate invokation
@@ -114,13 +141,18 @@ function(cforge_unit_run_tests)
         foreach(CASE IN LISTS CFORGE_UNIT_${CFORGE_UNIT_PROJECT}__${SUITE})
             list(APPEND CMAKE_MESSAGE_INDENT "  ")
             message(CHECK_START "Running test ${SUITE}.${CASE}")
-            include(${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/${CFORGE_UNIT_PROJECT}__${SUITE}__${CASE}.cmake)
+
+            _cforge_unit_set_context("${SUITE}" "${CASE}")
+
+            include(${_CFORGE_UNIT_CURRENT_TEST_SCRIPT_DIR}/RunTest.cmake)
             _cforge_unit_run_test()
-            if(CFORGE_UNIT_VERDICT_${CFORGE_UNIT_PROJECT}__${SUITE}__${CASE} STREQUAL failed)
+
+            if(CFORGE_UNIT_VERDICT_${CFORGE_UNIT_CURRENT_TEST_ID} STREQUAL failed)
                 message(CHECK_FAIL "failed")
             else()
                 message(CHECK_PASS "passed")
             endif()
+
             list(POP_BACK CMAKE_MESSAGE_INDENT)
         endforeach()
         message(CHECK_PASS "passed (verdict stubbed)")

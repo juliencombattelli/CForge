@@ -1,0 +1,13 @@
+
+set(CFORGE_UNIT_PROJECT @CFORGE_UNIT_PROJECT@ CACHE INTERNAL "")
+
+# Path to the top level of the CForge build tree for the current project
+set(CFORGE_UNIT_PROJECT_BINARY_DIR @CFORGE_UNIT_PROJECT_BINARY_DIR@ CACHE INTERNAL "")
+
+# Test ID for the current CForge test being processed
+set(CFORGE_UNIT_CURRENT_TEST_ID @CFORGE_UNIT_CURRENT_TEST_ID@ CACHE INTERNAL "")
+
+# Path to the build tree of the test being processed
+set(CFORGE_UNIT_CURRENT_TEST_BINARY_DIR @CFORGE_UNIT_CURRENT_TEST_BINARY_DIR@ CACHE INTERNAL "")
+
+set(CMAKE_MODULE_PATH @CMAKE_MODULE_PATH@ CACHE INTERNAL "")
