@@ -1,0 +1,45 @@
+CForge 1.0 Release Notes
+************************
+
+.. contents:: Table of Contents
+    :local:
+    :depth: 2
+
+
+This is the content of the initial release of CForge |:rocket:|
+
+New Features
+============
+
+Variables
+---------
+
+* 
+
+Modules
+-------
+
+* 
+
+Other
+-----
+
+* 
+
+Deprecated and Removed Features
+===============================
+
+* 
+
+Other Changes
+=============
+
+* 
+
+Updates
+=======
+
+x.y.1
+-----
+
+* 

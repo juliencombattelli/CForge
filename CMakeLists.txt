@@ -8,4 +8,4 @@ include(CTest)
 enable_testing()
 add_subdirectory(test)
 
-# TODO add documentation capability based on https://gitlab.com/Pro1/doxygen-cmake-sphinx
+# TODO add doc generation targets based on https://gitlab.com/Pro1/doxygen-cmake-sphinx

@@ -1,0 +1,7 @@
+{
+    "esbonio.sphinx.confDir": "${workspaceFolder}/doc",
+    "files.associations": {
+        "*.cmake.in": "cmake",
+        "*.CMakeLists.txt.in": "cmake"
+    }
+}
