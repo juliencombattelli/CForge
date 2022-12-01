@@ -1,5 +1,5 @@
 file(READ ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE} ERROR_STR)
-string(REGEX MATCH "  Assertion filed" MATCH ${ERROR_STR})
+string(REGEX MATCH "  Assertion failed" MATCH ${ERROR_STR})
 if(NOT MATCH)
     message(SEND_ERROR "Test failed")
 endif()
