@@ -1,6 +1,3 @@
-# string(JSON) introduced in CMake 3.19
-cmake_minimum_required(VERSION 3.19)
-
 #[=======================================================================[.rst:
 CForgeJSON
 --------
@@ -8,6 +5,9 @@ CForgeJSON
 Helper functions for parsing JSON strings in CMake scripts.
 
 #]=======================================================================]
+
+# string(JSON) introduced in CMake 3.19
+cmake_minimum_required(VERSION 3.19)
 
 include_guard(GLOBAL)
 
@@ -39,17 +39,19 @@ MEMBER_STRING variable.
 #]=======================================================================]
 function(cforge_json_member_as_string)
     cmake_parse_arguments("ARG" "" "RESULT_VARIABLE" "MEMBER" ${ARGN})
-    if(ARG_UNPARSED_ARGUMENTS)
-        message(FATAL_ERROR "All arguments are required")
+    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_JSON MESSAGE "Missing required argument")
+    if(NOT ARG_MEMBER)
+        set(MEMBER_PATH "")
+    else()
+        foreach(MEMBER IN LISTS ARG_MEMBER)
+            if (MEMBER MATCHES "^[0-9]+$")
+                set(MEMBER_PATH "${MEMBER_PATH}[${MEMBER}]")
+            else()
+                set(MEMBER_PATH "${MEMBER_PATH}.${MEMBER}")
+            endif()
+        endforeach()
+        string(SUBSTRING "${MEMBER_PATH}" 1 -1 MEMBER_PATH) # Remove leading `.`
     endif()
-    foreach(MEMBER IN LISTS ARG_MEMBER)
-        if (MEMBER MATCHES "^[0-9]+$")
-            set(MEMBER_PATH "${MEMBER_PATH}[${MEMBER}]")
-        else()
-            set(MEMBER_PATH "${MEMBER_PATH}.${MEMBER}")
-        endif()
-    endforeach()
-    string(SUBSTRING "${MEMBER_PATH}" 1 -1 MEMBER_PATH) # Remove leading `.`
     set(${ARG_RESULT_VARIABLE} "${MEMBER_PATH}" PARENT_SCOPE)
 endfunction()
 
