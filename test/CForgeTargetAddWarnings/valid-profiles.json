@@ -1,0 +1,212 @@
+{
+    "version": 1,
+    "base_profiles": [
+        {
+            "name": "common0",
+            "warnings": []
+        },
+        {
+            "name": "common1",
+            "warnings": [
+                "Common1A"
+            ]
+        },
+        {
+            "name": "common2",
+            "warnings": [
+                "Common2A",
+                "Common2B"
+            ]
+        },
+        {
+            "name": "common3",
+            "warnings": [
+                "Common3A",
+                "Common3B",
+                "Common3C"
+            ]
+        },
+        {
+            "name": "common1_0",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": []
+        },
+        {
+            "name": "common1_1",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": [
+                "Common1_1A"
+            ]
+        },
+        {
+            "name": "common1+2_2",
+            "inherit": [
+                "common1",
+                "common2"
+            ],
+            "warnings": [
+                "Common1+2A",
+                "Common1+2B"
+            ]
+        }
+    ],
+    "profiles": [
+        {
+            "compiler_id": "Profile0W0I",
+            "inherit": [],
+            "warnings": []
+        },
+        {
+            "compiler_id": "Profile0W1I",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": []
+        },
+        {
+            "compiler_id": "Profile0W2I",
+            "inherit": [
+                "common1",
+                "common2"
+            ],
+            "warnings": []
+        },
+        {
+            "compiler_id": "Profile0W3I",
+            "inherit": [
+                "common1",
+                "common2",
+                "common3"
+            ],
+            "warnings": []
+        },
+        {
+            "compiler_id": "Profile1W0I",
+            "inherit": [],
+            "warnings": [
+                "Warning1A"
+            ]
+        },
+        {
+            "compiler_id": "Profile1W1I",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": [
+                "Warning1A"
+            ]
+        },
+        {
+            "compiler_id": "Profile1W2I",
+            "inherit": [
+                "common1",
+                "common2"
+            ],
+            "warnings": [
+                "Warning1A"
+            ]
+        },
+        {
+            "compiler_id": "Profile1W3I",
+            "inherit": [
+                "common1",
+                "common2",
+                "common3"
+            ],
+            "warnings": [
+                "Warning1A"
+            ]
+        },
+        {
+            "compiler_id": "Profile2W0I",
+            "inherit": [],
+            "warnings": [
+                "Warning2A",
+                "Warning2B"
+            ]
+        },
+        {
+            "compiler_id": "Profile2W1I",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": [
+                "Warning2A",
+                "Warning2B"
+            ]
+        },
+        {
+            "compiler_id": "Profile2W2I",
+            "inherit": [
+                "common1",
+                "common2"
+            ],
+            "warnings": [
+                "Warning2A",
+                "Warning2B"
+            ]
+        },
+        {
+            "compiler_id": "Profile2W3I",
+            "inherit": [
+                "common1",
+                "common2",
+                "common3"
+            ],
+            "warnings": [
+                "Warning2A",
+                "Warning2B"
+            ]
+        },
+        {
+            "compiler_id": "Profile3W0I",
+            "inherit": [],
+            "warnings": [
+                "Warning3A",
+                "Warning3B",
+                "Warning3C"
+            ]
+        },
+        {
+            "compiler_id": "Profile3W1I",
+            "inherit": [
+                "common1"
+            ],
+            "warnings": [
+                "Warning3A",
+                "Warning3B",
+                "Warning3C"
+            ]
+        },
+        {
+            "compiler_id": "Profile3W2I",
+            "inherit": [
+                "common1",
+                "common2"
+            ],
+            "warnings": [
+                "Warning3A",
+                "Warning3B",
+                "Warning3C"
+            ]
+        },
+        {
+            "compiler_id": "Profile3W3I",
+            "inherit": [
+                "common1",
+                "common2",
+                "common3"
+            ],
+            "warnings": [
+                "Warning3A",
+                "Warning3B",
+                "Warning3C"
+            ]
+        }
+    ],
+    "comment": "TODO Add profiles using out of file inheritance"
+}

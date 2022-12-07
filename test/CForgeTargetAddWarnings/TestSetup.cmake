@@ -1,0 +1,2 @@
+include(CForgeTargetAddWarnings)
+include(CForgeAssert)
