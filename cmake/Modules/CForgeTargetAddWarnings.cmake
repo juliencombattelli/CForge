@@ -241,5 +241,5 @@ function(cforge_target_add_warnings TARGET_NAME)
         # TODO Is this the best option here? Maybe the scope should be selected by the user
         set(COMPILE_OPTIONS_SCOPE PRIVATE)
     endif()
-    target_compile_options(${TARGET_NAME} ${COMPILE_OPTIONS_SCOPE} ${TARGET_WARNINGS})
+    target_compile_options(${TARGET_NAME} ${COMPILE_OPTIONS_SCOPE} ${WARNINGS})
 endfunction()
