@@ -126,7 +126,6 @@ endfunction()
 
 function(_parse_out_of_file_base_profiles_version_1 INHERITED_PROFILE)
     # TODO support multiple profiles for one file
-    # Get base profile name and location from object
     string(JSON BASE_PROFILE_NAME GET "${INHERITED_PROFILE}" name)
     string(JSON FILE_NAME GET "${INHERITED_PROFILE}" file)
     get_filename_component(FILE_NAME "${FILE_NAME}" ABSOLUTE)
@@ -134,9 +133,7 @@ function(_parse_out_of_file_base_profiles_version_1 INHERITED_PROFILE)
     if(NOT EXISTS "${FILE_NAME}")
         message(FATAL_ERROR "Error searching base profile ${BASE_PROFILE_NAME}: file ${FILE_NAME} not found")
     endif()
-    # Get list of names in this other file
     file(READ "${FILE_NAME}" OTHER_CONFIG_STRING)
-    # Parse the file
     _parse_base_profiles_version_1("${OTHER_CONFIG_STRING}" ${BASE_PROFILE_NAME})
     set(BASE_PROFILE_FOUND ${BASE_PROFILE_FOUND} PARENT_SCOPE)
 endfunction()
@@ -194,7 +191,6 @@ endfunction()
 
 function(_parse_warning_config_file CONFIG_FILE)
     file(READ ${CONFIG_FILE} CONFIG_STRING)
-    list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
     string(JSON VERSION GET ${CONFIG_STRING} version)
     message(DEBUG "Version: ${VERSION}")
@@ -222,6 +218,7 @@ function(cforge_target_add_warnings TARGET_NAME)
     _use_default_warning_config_file_if_arg_not_set(ARG_CONFIG_FILE)
 
     message(CHECK_START "Parsing warning config from file ${ARG_CONFIG_FILE}")
+    list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
     _parse_warning_config_file(${ARG_CONFIG_FILE})
 
