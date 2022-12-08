@@ -1,5 +1,0 @@
-file(READ ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE} ERROR_STR)
-string(REGEX MATCH "This shall not be seen" MATCH "${ERROR_STR}")
-if(MATCH)
-    message(FATAL_ERROR "Test failed")
-endif()

@@ -1,5 +1,0 @@
-file(READ ${CFORGE_UNIT_CURRENT_TEST_ERROR_FILE} ERROR_STR)
-string(REGEX MATCH "  Assertion failed: Variable CMAKE_NOISREV does not exist" MATCH ${ERROR_STR})
-if(NOT MATCH)
-    message(SEND_ERROR "Test failed")
-endif()
