@@ -133,5 +133,16 @@ endfunction()
 # TODO Find if in array
 
 # TODO Append to array
+function(cforge_json_append)
+    cmake_parse_arguments("ARG" "" "OUT;JSON;VALUE;INDEX" "MEMBER" ${ARGN})
+    # TODO Add argument checking
+    # TODO Add member type checking
+    string(JSON LIST_LENGTH LENGTH "${ARG_JSON}" ${ARG_MEMBER})
+    string(JSON "${ARG_OUT}" SET "${ARG_JSON}" ${ARG_MEMBER} ${LIST_LENGTH} "${ARG_VALUE}")
+    set(${ARG_OUT} ${${ARG_OUT}} PARENT_SCOPE)
+    if(ARG_INDEX)
+        set(${ARG_INDEX} ${LIST_LENGTH} PARENT_SCOPE)
+    endif()
+endfunction()
 
 # TODO Set_or_append to array

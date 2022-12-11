@@ -6,12 +6,14 @@ set(TEST_SHALL_FAIL @ARG_SHALL_FAIL@)
 set(TEST_PASS_REGEX "@ARG_PASS_REGEX@")
 set(TEST_FAIL_REGEX "@ARG_FAIL_REGEX@")
 
+# Traces are used for test coverage reporting
 add_test(
     NAME "${CFORGE_UNIT_CURRENT_TEST_ID}"
     COMMAND ${CMAKE_COMMAND}
         -C "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/ContextCache.cmake"
         -S "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}"
         -B "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/build"
+        --trace --trace-redirect=${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/cforge-unit-coverage-traces.txt
 )
 if(TEST_SHALL_FAIL)
     set_property(
