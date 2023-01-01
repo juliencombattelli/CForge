@@ -193,7 +193,13 @@ endfunction()
 #      Currently broken since running multiple times CMake will accumulate the hit count
 function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
     file(STRINGS "${TRACEFILE}" TRACEFILE_CONTENTS)
+    # Same issue with bracket handling in lists
+    string(REGEX REPLACE "\\[" "_CFORGE_BRACKET_OPEN" TRACEFILE_CONTENTS "${TRACEFILE_CONTENTS}")
+    string(REGEX REPLACE "\\]" "_CFORGE_BRACKET_CLOSE" TRACEFILE_CONTENTS "${TRACEFILE_CONTENTS}")
     foreach(TRACELINE ${TRACEFILE_CONTENTS})
+        string(REGEX REPLACE "_CFORGE_BRACKET_OPEN" "[" LINE "${LINE}")
+        string(REGEX REPLACE "_CFORGE_BRACKET_CLOSE" "]" LINE "${LINE}")
+
         string(REGEX MATCH "^(.+)\\(([0-9]+)\\):  (.*)$" _ ${TRACELINE})
         # TODO Handle error (should not happen though)
         set(FILENAME ${CMAKE_MATCH_1})
