@@ -330,7 +330,7 @@ function(_cforge_unit_coverage_generate_html_report BINARY_DIR)
     file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*/cforge-unit-coverage-report.txt)
     execute_process(COMMAND
         genhtml --prefix ${PROJECT_SOURCE_DIR} --output-directory ${PROJECT_BINARY_DIR}/coverage
-            --rc lcov_branch_coverage=1 ${REPORTS}
+            --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
     )
 endfunction()
 
