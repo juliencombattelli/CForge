@@ -336,8 +336,19 @@ function(_cforge_unit_coverage_generate_html_report BINARY_DIR)
     )
 endfunction()
 
+function(_cforge_unit_coverage_cleanup_cache)
+    get_directory_property(VARIABLES CACHE_VARIABLES)
+    foreach(VARIABLES ${VARIABLES})
+        if(VARIABLES MATCHES "^_CFORGE_UNIT_COVERAGE_.*")
+            unset(${VARIABLES} CACHE)
+        endif()
+    endforeach()
+endfunction()
+
 # Collect lcov reports in BINARY_DIR and generate an html report
 function(cforge_unit_coverage_generate_coverage_report BINARY_DIR)
+    _cforge_unit_coverage_cleanup_cache()
+    # TODO Add test step to validate coverage implementation before use
     _cforge_unit_coverage_generate_all_lcov_reports(${BINARY_DIR})
     _cforge_unit_coverage_generate_html_report(${BINARY_DIR})
 endfunction()
