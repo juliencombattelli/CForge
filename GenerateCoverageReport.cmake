@@ -207,7 +207,7 @@ function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
         set(LINE_CONTENT ${CMAKE_MATCH_3})
 
         # TODO Add exclusion patterns to the module
-        if(NOT FILENAME MATCHES "^${CMAKE_SOURCE_DIR}" OR FILENAME MATCHES "^${CMAKE_BINARY_DIR}/CMakeFiles/.*$")
+        if(NOT FILENAME MATCHES "^${CMAKE_SOURCE_DIR}/cmake/.*")
             message(DEBUG "Skipping ${FILENAME}")
             continue()
         endif()
