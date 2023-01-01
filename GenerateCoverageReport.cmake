@@ -187,10 +187,8 @@ endfunction()
 
 # Get hit lines for trace file TRACEFILE
 # Set multiple CACHE variable to store the coverage info:
-#     HIT_LINE_${FILENAME}_${LINENO}: the line LINENO in file FILENAME was hit
-#     HIT_BRANCH_${FILENAME}_${LINENO}: the branch at LINENO in file FILENAME was hit
-# TODO Set output variable to PARENT_SCOPE instead of CACHE
-#      Currently broken since running multiple times CMake will accumulate the hit count
+#     _CFORGE_UNIT_COVERAGE_HIT_LINE_${FILENAME}_${LINENO}: the line LINENO in file FILENAME was hit
+#     _CFORGE_UNIT_COVERAGE_HIT_BRANCH_${FILENAME}_${LINENO}: the branch at LINENO in file FILENAME was hit
 function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
     file(STRINGS "${TRACEFILE}" TRACEFILE_CONTENTS)
     # Same issue with bracket handling in lists
