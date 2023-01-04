@@ -211,9 +211,11 @@ function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
         endif()
 
         if(NOT _CFORGE_UNIT_COVERAGE_EXECUTABLE_LINES_FOR_${FILENAME})
+            message(DEBUG "File '${FILENAME}' not yet analyzed, getting executable lines and branches")
             _cforge_unit_coverage_get_executable_lines("${FILENAME}")
         else()
             # File already analyzed, skipping
+            # Logging is done in the if part above because the else part occurs far too often
         endif()
 
         # Compute line hit
