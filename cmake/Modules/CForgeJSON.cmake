@@ -86,7 +86,10 @@ Otherwise a fatal error is thrown.
 function(cforge_json_get_array_as_list)
     cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;RESULT_VARIABLE_OBJECTS;JSON" "MEMBER" ${ARGN})
 
-    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_JSON AND ARG_MEMBER MESSAGE "Missing required argument")
+    cforge_assert(CONDITION ARG_RESULT_VARIABLE MESSAGE "Missing required argument: RESULT_VARIABLE")
+    # TODO Seems to fail for empty JSON strings, to be investigated
+    cforge_assert(CONDITION DEFINED ARG_JSON MESSAGE "Missing required argument: JSON")
+    cforge_assert(CONDITION ARG_MEMBER MESSAGE "Missing required argument: MEMBER")
 
     unset(${ARG_RESULT_VARIABLE})
     if(ARG_RESULT_VARIABLE_OBJECTS)
