@@ -123,6 +123,7 @@ function(cforge_unit_run_tests)
         message(FATAL_ERROR "CForgeUnit test failure")
     endif()
     if(CFORGE_ENABLE_COVERAGE)
+        # TODO Run coverage analysis as a cleanup fixture of all CTest test cases
         message(STATUS "Running test coverage analysis...")
         include(${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/Coverage/GenerateCoverageReport.cmake)
         cforge_unit_coverage_generate_coverage_report(${CMAKE_BINARY_DIR})
