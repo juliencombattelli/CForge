@@ -27,8 +27,8 @@ include(CForgeJSON)
     }
 #]]
 function(_cforge_unit_coverage_get_executable_lines FILE)
-    list(APPEND COVERAGE_FILES "${FILE}")
-    set(COVERAGE_FILES "${COVERAGE_FILES}" CACHE INTERNAL "" FORCE)
+    list(APPEND _CFORGE_UNIT_COVERAGE_FILES "${FILE}")
+    set(_CFORGE_UNIT_COVERAGE_FILES "${_CFORGE_UNIT_COVERAGE_FILES}" CACHE INTERNAL "" FORCE)
 
     set(BRACKET_OPEN_REGEX "\\[=*\\[")
     set(BRACKET_CLOSE_REGEX "\\]=*\\]")
@@ -297,7 +297,7 @@ endfunction()
 # Generate a lcov coverage report for TRACEFILE and write it to LCOV_OUTPUT
 function(_cforge_unit_coverage_generate_lcov_report TRACEFILE LCOV_OUTPUT)
     _cforge_unit_coverage_get_hit_lines(${TRACEFILE})
-    foreach(FILENAME ${COVERAGE_FILES})
+    foreach(FILENAME ${_CFORGE_UNIT_COVERAGE_FILES})
         unset(BRANCH_COVERAGE_REPORT)
         _cforge_unit_coverage_generate_lcov_branch_report_for_file("${FILENAME}" BRANCH_COVERAGE_REPORT)
         unset(LINE_COVERAGE_REPORT)
