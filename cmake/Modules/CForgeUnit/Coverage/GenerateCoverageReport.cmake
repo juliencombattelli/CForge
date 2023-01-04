@@ -170,7 +170,7 @@ function(_cforge_unit_coverage_get_executable_lines FILE)
         endif()
 
         # Exclude lines ending control blocks
-        if(LINE MATCHES "^[ \t\r]*end")
+        if(LINE MATCHES "^[ \t\r]*end([a-z]*)")
             message(DEBUG "End of block: ${CMAKE_MATCH_1}")
             continue()
         endif()
