@@ -5,15 +5,21 @@ set(CFORGE_UNIT_CURRENT_TEST_BINARY_DIR @CFORGE_UNIT_CURRENT_TEST_BINARY_DIR@)
 set(TEST_SHALL_FAIL @ARG_SHALL_FAIL@)
 set(TEST_PASS_REGEX "@ARG_PASS_REGEX@")
 set(TEST_FAIL_REGEX "@ARG_FAIL_REGEX@")
+set(TEST_IS_COVERAGE @TEST_IS_COVERAGE@)
 
-# Traces are used for test coverage reporting
+# CMake's trace mechanism is used for test coverage reporting
+if(NOT TEST_IS_COVERAGE)
+    set(TRACE_OPTIONS --trace --trace-redirect=${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/cforge-unit-coverage-traces.txt)
+endif()
+
 add_test(
     NAME "${CFORGE_UNIT_CURRENT_TEST_ID}"
     COMMAND ${CMAKE_COMMAND}
         -C "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/ContextCache.cmake"
         -S "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}"
         -B "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/build"
-        --trace --trace-redirect=${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/cforge-unit-coverage-traces.txt
+        ${TRACE_OPTIONS}
+    COMMAND_EXPAND_LISTS
 )
 if(TEST_SHALL_FAIL)
     set_property(
@@ -32,4 +38,11 @@ if(TEST_FAIL_REGEX)
         TEST "${CFORGE_UNIT_CURRENT_TEST_ID}"
         PROPERTY FAIL_REGULAR_EXPRESSION "${TEST_FAIL_REGEX}"
     )
+endif()
+if(TEST_IS_COVERAGE)
+    # This test step will be a run after all other tests.
+    set_tests_properties("${CFORGE_UNIT_CURRENT_TEST_ID}" PROPERTIES FIXTURES_CLEANUP Coverage)
+else()
+    # TODO Condition this property on ${${CFORGE_UNIT_PROJECT}_ENABLE_COVERAGE}
+    set_tests_properties("${CFORGE_UNIT_CURRENT_TEST_ID}" PROPERTIES FIXTURES_REQUIRED Coverage)
 endif()

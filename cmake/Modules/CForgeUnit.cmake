@@ -50,6 +50,8 @@ function(cforge_unit_add_test)
 
     # Path to the CForgeUnit CMake module sources
     set(CFORGE_UNIT_SOURCE_DIR "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit")
+    # Path to the top level of the source tree for the current project
+    set(CFORGE_UNIT_PROJECT_SOURCE_DIR "${${CFORGE_UNIT_PROJECT}_SOURCE_DIR}")
     # Path to the top level of the CForge build tree for the current project
     set(CFORGE_UNIT_PROJECT_BINARY_DIR "${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit")
     # Test ID for the current CForge test being processed
@@ -92,6 +94,14 @@ function(cforge_unit_add_test)
     endif()
 endfunction()
 
+function(cforge_unit_add_coverage)
+    # TODO Must test hybrid configuration with tests at both configuration-time and CTest execution-time
+    set(TEST_IS_COVERAGE ON)
+    cforge_unit_add_test(TEST_SUITE coverage TEST_CASE analysis
+        SCRIPT ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/Coverage/RunCoverage.cmake
+    )
+endfunction()
+
 function(cforge_unit_run_tests)
     if(NOT CFORGE_UNIT_REGISTERED_TESTS)
         return()
@@ -121,11 +131,5 @@ function(cforge_unit_run_tests)
     unset(CFORGE_UNIT_REGISTERED_TESTS CACHE)
     if(NOT RESULT EQUAL 0)
         message(FATAL_ERROR "CForgeUnit test failure")
-    endif()
-    if(CFORGE_ENABLE_COVERAGE)
-        # TODO Run coverage analysis as a cleanup fixture of all CTest test cases
-        message(STATUS "Running test coverage analysis...")
-        include(${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/Coverage/GenerateCoverageReport.cmake)
-        cforge_unit_coverage_generate_coverage_report(${CMAKE_BINARY_DIR})
     endif()
 endfunction()

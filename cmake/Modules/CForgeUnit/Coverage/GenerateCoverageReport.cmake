@@ -204,8 +204,7 @@ function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
         set(LINENO ${CMAKE_MATCH_2})
         set(LINE_CONTENT ${CMAKE_MATCH_3})
 
-        # TODO Add exclusion patterns to the module
-        if(NOT FILENAME MATCHES "^${CMAKE_SOURCE_DIR}/cmake/.*")
+        if(NOT FILENAME MATCHES "${_CFORGE_UNIT_COVERAGE_EXCLUSION_PATTERN}")
             message(DEBUG "Skipping ${FILENAME}")
             continue()
         endif()
@@ -327,8 +326,8 @@ function(_cforge_unit_coverage_generate_all_lcov_reports BINARY_DIR)
 endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate a html report
-function(_cforge_unit_coverage_generate_html_report BINARY_DIR)
-    file(REMOVE_RECURSE ${PROJECT_BINARY_DIR}/coverage)
+function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
+    file(REMOVE_RECURSE ${BINARY_DIR}/Coverage)
     file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*/cforge-unit-coverage-report.txt)
     execute_process(COMMAND
         genhtml --prefix ${PROJECT_SOURCE_DIR} --output-directory ${PROJECT_BINARY_DIR}/coverage
@@ -346,9 +345,10 @@ function(_cforge_unit_coverage_cleanup_cache)
 endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate an html report
-function(cforge_unit_coverage_generate_coverage_report BINARY_DIR)
+function(cforge_unit_coverage_generate_coverage_report SOURCE_DIR BINARY_DIR)
     _cforge_unit_coverage_cleanup_cache()
+    set(_CFORGE_UNIT_COVERAGE_EXCLUSION_PATTERN "^${SOURCE_DIR}/cmake/.*")
     # TODO Add test step to validate coverage implementation before use
-    _cforge_unit_coverage_generate_all_lcov_reports(${BINARY_DIR})
-    _cforge_unit_coverage_generate_html_report(${BINARY_DIR})
+    _cforge_unit_coverage_generate_all_lcov_reports("${BINARY_DIR}")
+    _cforge_unit_coverage_generate_html_report("${SOURCE_DIR}" "${BINARY_DIR}")
 endfunction()
