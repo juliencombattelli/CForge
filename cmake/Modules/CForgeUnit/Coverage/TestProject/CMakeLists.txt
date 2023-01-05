@@ -3,7 +3,7 @@ project(cforge_unit_coverage_test_project)
 
 set(VAR "a;c;b") #[==[ Hello ]==] #[===[
 hello
- <- this is not the closing
+ <- this is not the closing bracket
 ]
 
 ]===]
@@ -20,7 +20,9 @@ else()
     message("")
 endif()
 
-# TODO Add testing option
+# TODO Add more control statements
+
+# A single line comment
 include(CTest) #[==[ Hello ]==]
 
 #[==[ Hello ]==] #[=[
