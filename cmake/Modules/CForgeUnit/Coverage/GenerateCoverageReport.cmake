@@ -329,10 +329,15 @@ endfunction()
 function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
     file(REMOVE_RECURSE ${BINARY_DIR}/Coverage)
     file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*/cforge-unit-coverage-report.txt)
-    execute_process(COMMAND
-        genhtml --prefix ${PROJECT_SOURCE_DIR} --output-directory ${PROJECT_BINARY_DIR}/coverage
-            --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
+    execute_process(
+        COMMAND
+            genhtml --prefix ${SOURCE_DIR} --output-directory ${BINARY_DIR}/Coverage
+                --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
+        RESULT_VARIABLE RESULT
     )
+    if(NOT RESULT EQUAL 0)
+        message(SEND_ERROR "genhtml finished with errors")
+    endif()
 endfunction()
 
 function(_cforge_unit_coverage_cleanup_cache)
