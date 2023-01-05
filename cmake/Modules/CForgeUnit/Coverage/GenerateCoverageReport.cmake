@@ -162,8 +162,7 @@ function(_cforge_unit_coverage_get_executable_lines FILE)
             set(INSIDE_BRANCH FALSE)
         endif()
 
-        # Exclude else statements
-        # TODO Exclude all other control block statements as well?
+        # Exclude else statements since they do not appear in CMake traces
         if(LINE MATCHES "^[ \t\r]*else[ \t\r]*\\(")
             message(DEBUG "Else")
             continue()

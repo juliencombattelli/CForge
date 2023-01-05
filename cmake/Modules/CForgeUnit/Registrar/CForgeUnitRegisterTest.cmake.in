@@ -40,9 +40,10 @@ if(TEST_FAIL_REGEX)
     )
 endif()
 if(TEST_IS_COVERAGE)
-    # This test step will be a run after all other tests.
+    # This test is the coverage analysis and will be a run after all other tests
     set_tests_properties("${CFORGE_UNIT_CURRENT_TEST_ID}" PROPERTIES FIXTURES_CLEANUP Coverage)
 else()
-    # TODO Condition this property on ${${CFORGE_UNIT_PROJECT}_ENABLE_COVERAGE}
+    # This is an ordinary test and must have Coverage as a fixture to support code coverage reporting
+    # If coverage is not enabled, the fixture will not be defined and the requirement below will be silently ignored
     set_tests_properties("${CFORGE_UNIT_CURRENT_TEST_ID}" PROPERTIES FIXTURES_REQUIRED Coverage)
 endif()
