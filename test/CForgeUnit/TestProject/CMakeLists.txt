@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(cforge_unit_coverage_test_project)
+project(cforge_unit_coverage_test_project LANGUAGES NONE)
 
 set(VAR "a;c;b") #[==[ Hello ]==] #[===[
 hello
