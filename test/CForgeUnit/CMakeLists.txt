@@ -1,0 +1,1 @@
+cforge_unit_add_test(TEST_SUITE CForgeUnit TEST_CASE coverage_no_regression)
