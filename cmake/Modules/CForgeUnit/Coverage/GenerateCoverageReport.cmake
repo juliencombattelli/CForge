@@ -205,7 +205,7 @@ function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
         set(LINENO ${CMAKE_MATCH_2})
         set(LINE_CONTENT ${CMAKE_MATCH_3})
 
-        if(NOT FILENAME MATCHES "${_CFORGE_UNIT_COVERAGE_EXCLUSION_PATTERN}")
+        if(NOT FILENAME MATCHES "${_CFORGE_UNIT_COVERAGE_INCLUSION_PATTERN}")
             message(DEBUG "Skipping ${FILENAME}")
             continue()
         endif()
@@ -353,7 +353,7 @@ endfunction()
 # Collect lcov reports in BINARY_DIR and generate an html report
 function(cforge_unit_coverage_generate_coverage_report SOURCE_DIR BINARY_DIR)
     _cforge_unit_coverage_cleanup_cache()
-    set(_CFORGE_UNIT_COVERAGE_EXCLUSION_PATTERN "^${SOURCE_DIR}/cmake/.*")
+    set(_CFORGE_UNIT_COVERAGE_INCLUSION_PATTERN "^${SOURCE_DIR}.*")
     # TODO Add test step to validate coverage implementation before use
     _cforge_unit_coverage_generate_all_lcov_reports("${BINARY_DIR}")
     _cforge_unit_coverage_generate_html_report("${SOURCE_DIR}" "${BINARY_DIR}")
