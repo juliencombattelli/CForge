@@ -2,6 +2,7 @@ include(CForgeUnit)
 
 add_subdirectory(CForgeAssert)
 add_subdirectory(CForgeTargetAddWarnings)
+add_subdirectory(CForgeUnit)
 
 if(CFORGE_ENABLE_COVERAGE)
     cforge_unit_add_coverage()
