@@ -319,7 +319,7 @@ endfunction()
 
 # Collect trace files in BINARY_DIR and generate a lcov report for each one
 function(_cforge_unit_coverage_generate_all_lcov_reports BINARY_DIR)
-    file(GLOB_RECURSE TRACEFILES LIST_DIRECTORIES false ${BINARY_DIR}/*/cforge-unit-coverage-traces.txt)
+    file(GLOB_RECURSE TRACEFILES LIST_DIRECTORIES false ${BINARY_DIR}/*cforge-unit-coverage-traces.txt)
     foreach(TRACEFILE IN LISTS TRACEFILES)
         get_filename_component(TRACEFILE_DIR "${TRACEFILE}" DIRECTORY)
         _cforge_unit_coverage_generate_lcov_report("${TRACEFILE}" "${TRACEFILE_DIR}/cforge-unit-coverage-report.txt")
@@ -329,7 +329,7 @@ endfunction()
 # Collect lcov reports in BINARY_DIR and generate a html report
 function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
     file(REMOVE_RECURSE ${BINARY_DIR}/Coverage)
-    file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*/cforge-unit-coverage-report.txt)
+    file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*cforge-unit-coverage-report.txt)
     execute_process(
         COMMAND
             genhtml --prefix ${SOURCE_DIR} --output-directory ${BINARY_DIR}/Coverage
