@@ -8,4 +8,4 @@ execute_process(
         --trace --trace-redirect=${CMAKE_CURRENT_BINARY_DIR}/TestProject/cforge-unit-coverage-traces.txt
 )
 
-cforge_unit_coverage_generate_coverage_report(${CFORGE_UNIT_PROJECT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TestProject)
+cforge_unit_coverage_generate_coverage_report(${CMAKE_CURRENT_LIST_DIR}/TestProject ${CMAKE_CURRENT_BINARY_DIR}/TestProject)
