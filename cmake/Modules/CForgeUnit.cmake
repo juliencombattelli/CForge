@@ -112,8 +112,8 @@ function(cforge_unit_run_tests)
             -C ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/ContextCache.cmake
             -S ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit/Registrar
             -B ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/build
-        OUTPUT_FILE ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/configure.out.txt
-        ERROR_FILE ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/configure.err.txt
+        OUTPUT_FILE ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/configure.out.txt
+        ERROR_FILE ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/configure.err.txt
     )
     # Run CTest
     set(ENV{CLICOLOR_FORCE} 1)
