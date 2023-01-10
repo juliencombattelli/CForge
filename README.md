@@ -1,6 +1,7 @@
 # CForge
 
 CForge is a collection of CMake scripts and modules to forge robust and toolable build systems.
+Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedocs.io).
 
 ## Features
 
