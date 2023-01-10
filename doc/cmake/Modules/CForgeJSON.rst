@@ -1,1 +1,1 @@
-.. cmake-module:: ../../../../cmake/Modules/CForgeJSON.cmake
+.. cmake-module:: ../../../cmake/Modules/CForgeJSON.cmake

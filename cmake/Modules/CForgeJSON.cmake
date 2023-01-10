@@ -1,6 +1,6 @@
 #[=======================================================================[.rst:
 CForgeJSON
---------
+----------
 
 Helper functions for parsing JSON strings in CMake scripts.
 
@@ -14,7 +14,7 @@ include_guard(GLOBAL)
 include(CForgeAssert)
 
 #[=======================================================================[.rst:
-.. command:: cforge_json_member_as_string
+.. cmake:command:: cforge_json_member_as_string
 
   Convert a CMake JSON member list into a more readable JSON member path.
   Named members will add ``.member``, whereas indexes will add a subscript ``[index]`` to the result
@@ -56,7 +56,7 @@ function(cforge_json_member_as_string)
 endfunction()
 
 #[=======================================================================[.rst:
-.. command:: cforge_json_get_array_as_list
+.. cmake:command:: cforge_json_get_array_as_list
 
   Get an array from ``<json-string>`` at the location given by the list of ``<member|index>``
   arguments and copy its elements into the list variable ``<out-var>``.
