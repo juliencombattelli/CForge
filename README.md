@@ -26,6 +26,7 @@ CForge is a collection of CMake scripts and modules to forge robust and toolable
 - [Not yet implemented] **FindGDB** — Find the GDB executable for the current toolchain
 - [Not yet implemented] **FindLCOV** — Find the LCOV code coverage report generation tool
 - [Not yet implemented] **FindOpenOCD** — Find the OpenOCD executable
+- **FindSphinx** — Find the Sphinx documentation generator
 
 ### Toolchains
 
