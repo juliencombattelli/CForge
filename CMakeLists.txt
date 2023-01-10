@@ -12,11 +12,14 @@ include(CMakeDependentOption)
 
 option(CFORGE_ENABLE_TESTING "Download GoogleTest and enable the unit test suite execution" ON)
 cmake_dependent_option(CFORGE_ENABLE_COVERAGE "Enable test coverage report generation" OFF CFORGE_ENABLE_TESTING OFF)
+option(CFORGE_ENABLE_DOCUMENTATION "Generate the html documentation using Sphinx" OFF)
 
 if(CFORGE_ENABLE_TESTING)
     include(CTest)
     add_subdirectory(test)
 endif()
 
-include(CForgeDoc)
-cforge_add_documentation(doc CONF_FILE doc/conf.py)
+if(CFORGE_ENABLE_DOCUMENTATION)
+    include(CForgeDoc)
+    cforge_add_documentation(doc CONF_FILE doc/conf.py)
+endif()
