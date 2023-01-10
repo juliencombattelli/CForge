@@ -20,7 +20,7 @@ CForge is a collection of CMake scripts and modules to forge robust and toolable
 - [Not yet implemented] **CForgeTargetEnableInterproceduralOptimization** — Enable Link-Time Optimizations for a target
 - [Not yet implemented] **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
 - [Not yet implemented] **CForgeTargetEnableStaticAnalyzers** — Enable static analysis for a target
-- **CForgeUnit** — Provide a unit-test framework for CMake code
+- **CForgeUnit** — Provide a unit-test and test coverage framework for CMake code
 
 ### Find modules
 
