@@ -9,10 +9,13 @@ build:
     - cmake
   tools:
     python: "3.11"
+  commands:
+    - cmake -S . -B build -DCFORGE_ENABLE_TESTING=OFF -DCFORGE_ENABLE_DOCUMENTATION=ON
+    - cmake --build build
+    - cmake --build build --target doc
+    - mkdir --parents _readthedocs/html/
+    - cp --recursive build/doc/* _readthedocs/html/
 
 python:
   install:
     - requirements: doc/requirements.txt
-
-sphinx:
-   configuration: doc/conf.py
