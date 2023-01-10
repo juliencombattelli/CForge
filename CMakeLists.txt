@@ -1,5 +1,10 @@
-cmake_minimum_required(VERSION 3.16)
-project(cforge)
+cmake_minimum_required(VERSION 3.16) # TODO Should be equal to smaller required version of provided modules
+set(PROJECT_AUTHOR "Julien Combattelli")
+project(CForge
+    VERSION 1.0.0
+    DESCRIPTION "A collection of CMake scripts and modules to forge robust and toolable build systems "
+    HOMEPAGE_URL "https://github.com/juliencombattelli/CForge"
+)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
@@ -13,4 +18,5 @@ if(CFORGE_ENABLE_TESTING)
     add_subdirectory(test)
 endif()
 
-# TODO add doc generation targets based on https://gitlab.com/Pro1/doxygen-cmake-sphinx
+include(CForgeDoc)
+cforge_add_documentation(doc CONF_FILE doc/conf.py)

@@ -8,6 +8,7 @@ CForge is a collection of CMake scripts and modules to forge robust and toolable
 
 - [Work in progress] **CForgeAssert** — Provide a flexible assertion mechanism
 - [Not yet implemented] **CForgeConan** — Integrate the Conan package manager into a CMake project
+- **CForgeDoc** — Generate rst-formatted documentation using Sphinx
 - [Not yet implemented] **CForgeFetchFmt** — Fetch the Fmt library using FetchContent
 - [Not yet implemented] **CForgeFetchGoogleTest** — Fetch the GoogleTest framework using FetchContent
 - [Not yet implemented] **CForgeFetchSpdlog** — Fetch the Spdlog library using FetchContent
