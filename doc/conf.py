@@ -8,11 +8,11 @@
 # Values are coming from the build system using -D Sphinx' option, so placeholders are used here.
 # An alternative could be to use CMake's configure_file() to provide them.
 
-project = '<project>'
-copyright = '<copyright>'
-author = '<author>'
-version = '<version>'
-release = '<full-version>'
+project = '@PROJECT_NAME@'
+copyright = '@CURRENT_YEAR@, @PROJECT_AUTHOR@'
+author = '@PROJECT_AUTHOR@'
+version = '@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@'
+release = '@PROJECT_VERSION@'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

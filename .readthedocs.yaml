@@ -3,16 +3,27 @@
 
 version: 2
 
+formats: all
+
 build:
   os: ubuntu-22.04
+  apt_packages:
+    - tree
   tools:
     python: "3.11"
-  commands:
-    - pip install cmake
-    - pip install -r doc/requirements.txt
-    - cmake -S . -B build -DCFORGE_ENABLE_TESTING=OFF -DCFORGE_ENABLE_DOCUMENTATION=ON
-    - cmake --build build
-    - cmake --build build --target doc
-    - mkdir --parents _readthedocs/html/
-    - cp --recursive build/doc/* _readthedocs/html/
-    - ls -l _readthedocs/html/
+  jobs:
+    pre_build:
+      - echo "Installing CMake (latest) using pip"
+      - pip install cmake
+      - cmake --version
+      - echo "Configuring CForge project"
+      - cmake -S . -B build -DCFORGE_ENABLE_TESTING=OFF -DCFORGE_ENABLE_DOCUMENTATION=ON
+      - echo "Patching conf file for ReadTheDocs"
+      - mv build/doc.cache/conf.py doc/conf.py
+
+python:
+  install:
+    - requirements: doc/requirements.txt
+
+sphinx:
+   configuration: doc/conf.py
