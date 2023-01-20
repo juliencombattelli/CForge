@@ -11,7 +11,6 @@ function(cforge_add_documentation TARGET_NAME)
     string(TIMESTAMP CURRENT_YEAR "%Y" UTC)
 
     configure_file("${CONF_FILE}" "${OUT_DIR}.cache/${CONF_FILE_NAME}" @ONLY)
-    file(MAKE_DIRECTORY "${OUT_DIR}.cache/_static/") # Empty _static folder next to conf file, needed by Sphinx for some reason
 
     # The generated target will always be considered out-of-date since sphinx already handled
     # dependencies at file-level
