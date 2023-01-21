@@ -4,7 +4,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
-import sys
 import pathlib
 
 # -- Project information ---------------------------------------------------------------------------
@@ -19,7 +18,6 @@ import pathlib
 # be a valid Sphinx's conf.py). Be aware that VSCode html preview will have the @variable@ below not
 # replaced. For a full featured documentation, please run the provided `doc` target.
 
-
 project = '@PROJECT_NAME@'
 copyright = '@CURRENT_YEAR@, @PROJECT_AUTHOR@'
 author = '@PROJECT_AUTHOR@'
@@ -29,17 +27,22 @@ release = '@PROJECT_VERSION@'
 # -- General configuration -------------------------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-sys.path.append(os.path.abspath("_ext"))
+# Path where the final conf.py is located:
+#   - in ${CMAKE_BINARY_DIR}/doc.cache/ when generating the doc using CMake
+#   - in ${CMAKE_SOURCE_DIR}/doc/ when generating the doc on ReadTheDocs.org
 file_dir = pathlib.Path(os.path.realpath(__file__)).parent
 
+# Enabled extensions
 extensions = [
     'sphinx.ext.intersphinx',
     'sphinxcontrib.moderncmakedomain',
     'sphinxemoji.sphinxemoji'
 ]
 
+# Do not search source files in these directories
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# Warn about references not found
 nitpicky = True
 
 # -- Options for HTML output -----------------------------------------------------------------------
@@ -49,6 +52,7 @@ html_theme = 'classic'
 
 # -- Intersphinx configuration ---------------------------------------------------------------------
 
+# Search references in cmake-objects.patched.inv first, then fallback to objects.inv from cmake.org
 intersphinx_mapping = {
     'cmake.org': ('https://cmake.org/cmake/help/latest', (str(file_dir / 'cmake-objects.patched.inv'), None))
 }
