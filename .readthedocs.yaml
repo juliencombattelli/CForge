@@ -18,8 +18,10 @@ build:
       - cmake --version
       - echo "Configuring CForge project"
       - cmake -S . -B build -DCFORGE_ENABLE_TESTING=OFF -DCFORGE_ENABLE_DOCUMENTATION=ON
+      - cmake --build build --target doc-patch-cmake-inventory
       - echo "Patching conf file for ReadTheDocs"
-      - mv build/doc.cache/conf.py doc/conf.py
+      - mv build/doc.cache/* doc/
+      - tree doc
 
 python:
   install:

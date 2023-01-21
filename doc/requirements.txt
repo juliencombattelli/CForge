@@ -1,3 +1,4 @@
 sphinx
 sphinxcontrib-moderncmakedomain
 sphinxemoji
+sphobjinv

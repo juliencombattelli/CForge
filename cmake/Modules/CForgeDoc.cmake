@@ -7,18 +7,29 @@ function(cforge_add_documentation TARGET_NAME)
     get_filename_component(CONF_FILE_NAME "${CONF_FILE}" NAME)
     get_filename_component(SOURCE_DIR "${CONF_FILE}" DIRECTORY)
     set(OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}")
+    set(CACHE_DIR "${OUT_DIR}.cache")
 
     string(TIMESTAMP CURRENT_YEAR "%Y" UTC)
 
-    configure_file("${CONF_FILE}" "${OUT_DIR}.cache/${CONF_FILE_NAME}" @ONLY)
+    configure_file("${CONF_FILE}" "${CACHE_DIR}/${CONF_FILE_NAME}" @ONLY)
 
-    # The generated target will always be considered out-of-date since sphinx already handled
-    # dependencies at file-level
-    add_custom_target(${TARGET_NAME}
-        COMMAND "${SPHINX_EXECUTABLE}" -q -b html -c "${OUT_DIR}.cache" "${SOURCE_DIR}" "${OUT_DIR}"
+    # The generated target will always be considered out-of-date since the upstream CMake inventory can change
+    add_custom_target(${TARGET_NAME}-patch-cmake-inventory
+        COMMAND "${PYTHON_EXECUTABLE}" "${SOURCE_DIR}/patch-cmake-objects-inv.py"
+            "${CACHE_DIR}/cmake-objects.inv" "${CACHE_DIR}/cmake-objects.patched.inv"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        COMMENT "Generating documentation"
-        DEPENDS "${OUT_DIR}.cache/${CONF_FILE_NAME}"
+        COMMENT "Patching CMake inventory file"
+        DEPENDS "${SOURCE_DIR}/patch-cmake-objects-inv.py"
         VERBATIM
     )
+
+    # The generated target will always be considered out-of-date as sphinx already handled dependencies at file-level
+    add_custom_target(${TARGET_NAME}
+        COMMAND "${SPHINX_EXECUTABLE}" -q -b html -c "${CACHE_DIR}" "${SOURCE_DIR}" "${OUT_DIR}"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        COMMENT "Generating documentation"
+        DEPENDS "${CACHE_DIR}/${CONF_FILE_NAME}"
+        VERBATIM
+    )
+    add_dependencies(${TARGET_NAME} ${TARGET_NAME}-patch-cmake-inventory)
 endfunction()

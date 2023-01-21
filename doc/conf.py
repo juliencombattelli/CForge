@@ -5,6 +5,7 @@
 
 import os
 import sys
+import pathlib
 
 # -- Project information ---------------------------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -29,7 +30,7 @@ release = '@PROJECT_VERSION@'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 sys.path.append(os.path.abspath("_ext"))
-
+file_dir = pathlib.Path(os.path.realpath(__file__)).parent
 
 extensions = [
     'sphinx.ext.intersphinx',
@@ -49,5 +50,5 @@ html_theme = 'classic'
 # -- Intersphinx configuration ---------------------------------------------------------------------
 
 intersphinx_mapping = {
-    'cmake': ('https://cmake.org/cmake/help/latest', None)
+    'cmake.org': ('https://cmake.org/cmake/help/latest', (str(file_dir / 'cmake-objects.patched.inv'), None))
 }
