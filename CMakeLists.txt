@@ -20,6 +20,5 @@ if(CFORGE_ENABLE_TESTING)
 endif()
 
 if(CFORGE_ENABLE_DOCUMENTATION)
-    include(CForgeDoc)
-    cforge_add_documentation(doc CONF_FILE doc/conf.py)
+    add_subdirectory(doc)
 endif()
