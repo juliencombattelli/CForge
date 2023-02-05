@@ -73,36 +73,44 @@ endfunction()
 
     cforge_json_get_array_as_list(
         RESULT_VARIABLE <out-var>
-        [RESULT_VARIABLE_OBJECTS <objects-out-var>]
         JSON <json-string>
         MEMBER <member|index> [<member|index> ...]
         [OPTIONAL]
     )
 
-If the JSON element designated by the ``<member|index>`` arguments is not an array but a single
-value, the ``<out-var>`` list will only contain that value.
+  If the JSON element designated by the ``<member|index>`` arguments is not an array but a single
+  value, the ``<out-var>`` list will only contain that value.
 
-If the values are JSON objects, the whole objects will be stored in the list ``<objects-out-var>``
-for later processing. If the ``RESULT_VARIABLE_OBJECTS`` argument is not provided, the objects will be
-silently skipped.
+  If the values are JSON objects, the whole objects will be stored in the list ``<out-var>``
+  for later processing.
 
-If the JSON element designated by the ``<member|index>`` arguments is not found and the ``OPTIONAL``
-boolean argument is used, then the returned list ``<out-var>`` will be empty.
-Otherwise a fatal error is thrown.
+  If the JSON element designated by the ``<member|index>`` arguments is not found and the ``OPTIONAL``
+  boolean argument is used, then the returned list ``<out-var>`` will be empty.
+  Otherwise a fatal error is thrown.
+
+  **Parameters**
+
+  ``OPTIONAL``
+    Do not throw an error if the JSON member is not found
+
+  **Usage example**
+
+  .. code-block:: cmake
+
+    cforge_json_get_array_as_list(
+        ...
+    )
+
+  Desc
 
 #]=======================================================================]
 function(cforge_json_get_array_as_list)
-    cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;RESULT_VARIABLE_OBJECTS;JSON" "MEMBER" ${ARGN})
+    cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;JSON" "MEMBER" ${ARGN})
 
     cforge_assert(CONDITION ARG_RESULT_VARIABLE MESSAGE "Missing required argument: RESULT_VARIABLE")
     # TODO Seems to fail for empty JSON strings, to be investigated
     cforge_assert(CONDITION DEFINED ARG_JSON MESSAGE "Missing required argument: JSON")
     cforge_assert(CONDITION ARG_MEMBER MESSAGE "Missing required argument: MEMBER")
-
-    unset(${ARG_RESULT_VARIABLE})
-    if(ARG_RESULT_VARIABLE_OBJECTS)
-        unset(${ARG_RESULT_VARIABLE_OBJECTS})
-    endif()
 
     string(JSON MEMBER_TYPE ERROR_VARIABLE ERROR TYPE ${ARG_JSON} ${ARG_MEMBER})
 
@@ -123,13 +131,6 @@ function(cforge_json_get_array_as_list)
                     list(APPEND ${ARG_RESULT_VARIABLE} ${ARRAY_ITEM})
                 endforeach()
                 set(${ARG_RESULT_VARIABLE} ${${ARG_RESULT_VARIABLE}} PARENT_SCOPE)
-                return()
-            endif()
-        elseif(MEMBER_TYPE STREQUAL "OBJECT")
-            if(ARG_RESULT_VARIABLE_OBJECTS)
-                string(JSON SINGLE_OBJECT GET ${ARG_JSON} ${ARG_MEMBER})
-                list(APPEND ${ARG_RESULT_VARIABLE_OBJECTS} ${SINGLE_OBJECT})
-                set(${ARG_RESULT_VARIABLE_OBJECTS} ${${ARG_RESULT_VARIABLE}} PARENT_SCOPE)
                 return()
             endif()
         else()
