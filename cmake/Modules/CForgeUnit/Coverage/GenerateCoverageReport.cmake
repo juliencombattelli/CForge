@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.21)
+# Bug with CMake trace feature fixed in 3.24
+# See https://gitlab.kitware.com/cmake/cmake/-/merge_requests/7118
+cmake_minimum_required(VERSION 3.24)
 
 include(CForgeJSON)
 
