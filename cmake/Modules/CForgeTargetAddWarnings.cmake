@@ -9,7 +9,7 @@ CForgeTargetAddWarnings
 
 Add some warnings from a config file to a CMake target.
 
-.. command:: cforge_target_add_warnings
+.. cmake:command:: cforge_target_add_warnings
 
   .. code-block:: cmake
 
@@ -24,7 +24,7 @@ provides a reasonable set of warnings for GCC, Clang and MSVC that may be enable
 
 The ``WARNING_AS_ERROR`` optional argument turns warnings into errors.
 TODO This is not implemented for now. Using it will cause a configuration warning.
-     It may be implemented using COMPILE_WARNING_AS_ERROR target property, requiring CMake 3.24+.
+It may be implemented using COMPILE_WARNING_AS_ERROR target property, requiring CMake 3.24+.
 #]=================================================================================================]
 
 function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
