@@ -39,7 +39,7 @@ foreach(PROFILE IN LISTS TESTED_PROFILES)
     set(CMAKE_CXX_COMPILER_ID ${PROFILE})
     set(CURRENT_TARGET TestTargetAddWarnings${PROFILE})
     add_library(${CURRENT_TARGET} INTERFACE)
-    cforge_target_add_warnings(${CURRENT_TARGET} CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/valid-profiles.json")
+    cforge_target_add_warnings(${CURRENT_TARGET} CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/valid-profiles.cmake")
     get_target_property(COMPILE_OPTIONS ${CURRENT_TARGET} INTERFACE_COMPILE_OPTIONS)
 
     # Assert the retrieved warnings match the expected ones
