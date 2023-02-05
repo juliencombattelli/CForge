@@ -16,7 +16,7 @@ include(CForgeAssert)
 #[=======================================================================[.rst:
 .. cmake:command:: cforge_json_member_as_string
 
-  Convert a CMake JSON member list into a more readable JSON member path.
+  Convert a CMake JSON member list into a more readable JSONPath as specified by IETF.
   Named members will add ``.member``, whereas indexes will add a subscript ``[index]`` to the result
   variable.
 
@@ -24,25 +24,34 @@ include(CForgeAssert)
 
     cforge_json_member_as_string(
         RESULT_VARIABLE <out-var>
+        [ROOT_PREFIX <prefix>]
         MEMBER <member|index> [<member|index> ...]
     )
 
-Example invocation:
+  **Options**
 
-.. code-block:: cmake
+  ``ROOT_PREFIX <prefix>``
+    Prefix prepended to <out-var>. Defaults to "$" if not specified.
 
-  cforge_json_member_as_string(RESULT_VARIABLE MEMBER_STRING MEMBER abc def 2 ghi)
+  **Usage example**
 
-The member list ``abc def 2 ghi`` will be converted into ``abc.def[2].ghi`` and stored into
-MEMBER_STRING variable.
+  .. code-block:: cmake
+
+    cforge_json_member_as_string(
+        RESULT_VARIABLE MEMBER_STRING
+        ROOT_PREFIX "&"
+        MEMBER abc def 2 ghi
+    )
+
+  The member list ``abc def 2 ghi`` will be converted into ``&.abc.def[2].ghi`` and stored into
+  ``MEMBER_STRING`` result variable.
 
 #]=======================================================================]
 function(cforge_json_member_as_string)
-    cmake_parse_arguments("ARG" "" "RESULT_VARIABLE" "MEMBER" ${ARGN})
-    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_JSON MESSAGE "Missing required argument")
-    if(NOT ARG_MEMBER)
-        set(MEMBER_PATH "")
-    else()
+    cmake_parse_arguments("ARG" "" "RESULT_VARIABLE;ROOT_PREFIX" "MEMBER" ${ARGN})
+    cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_MEMBER MESSAGE "Missing required argument")
+    set(MEMBER_PATH "$")
+    if(ARG_MEMBER)
         foreach(MEMBER IN LISTS ARG_MEMBER)
             if (MEMBER MATCHES "^[0-9]+$")
                 set(MEMBER_PATH "${MEMBER_PATH}[${MEMBER}]")
@@ -50,7 +59,6 @@ function(cforge_json_member_as_string)
                 set(MEMBER_PATH "${MEMBER_PATH}.${MEMBER}")
             endif()
         endforeach()
-        string(SUBSTRING "${MEMBER_PATH}" 1 -1 MEMBER_PATH) # Remove leading `.`
     endif()
     set(${ARG_RESULT_VARIABLE} "${MEMBER_PATH}" PARENT_SCOPE)
 endfunction()
