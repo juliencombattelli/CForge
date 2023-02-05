@@ -1,6 +1,7 @@
 include(CForgeUnit)
 
 add_subdirectory(CForgeAssert)
+add_subdirectory(CForgeJSON)
 add_subdirectory(CForgeTargetAddWarnings)
 add_subdirectory(CForgeUnit)
 

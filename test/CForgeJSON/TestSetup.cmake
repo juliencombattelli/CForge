@@ -1,0 +1,2 @@
+include(CForgeJSON)
+include(CForgeAssert)
