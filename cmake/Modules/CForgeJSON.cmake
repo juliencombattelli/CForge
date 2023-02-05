@@ -2,8 +2,10 @@
 CForgeJSON
 ----------
 
-Helper functions for parsing JSON strings in CMake scripts.
+This module provides functions for parsing JSON strings in CMake scripts using
+:cmake:command:`string(JSON)`.
 
+.. note:: requires CMake 3.19 or greater
 #]=======================================================================]
 
 # string(JSON) introduced in CMake 3.19
@@ -144,7 +146,7 @@ endfunction()
 
 # TODO Find if in array
 
-# TODO Append to array
+# TODO doc
 function(cforge_json_append)
     cmake_parse_arguments("ARG" "" "OUT;JSON;VALUE;INDEX" "MEMBER" ${ARGN})
     # TODO Add argument checking
