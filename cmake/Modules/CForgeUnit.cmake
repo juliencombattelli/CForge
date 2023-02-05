@@ -11,6 +11,8 @@ include_guard()
 # CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION: run all tests at configuration
 # CFORGE_UNIT_VERBOSE: make test executed at configuration verbose
 
+option(CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION "Run CForge test suite at configuration instead of during CTest phase" OFF)
+
 # SCRIPT: script to run the test (unit test execution and assertions if applicable)
 # RUN_AT_CONFIGURATION: execute the test at configuration instead of during ctest execution
 # LANGUAGES: languages enabled for the test script execution (default NONE)
