@@ -120,15 +120,21 @@ function(cforge_unit_run_tests)
     # Run CTest
     set(ENV{CLICOLOR_FORCE} 1)
     if(CFORGE_UNIT_VERBOSE)
-        set(ENV{ARGS} "--output-on-failure --verbose")
+        set(CTEST_ARGS "--output-on-failure --verbose")
     else()
-        set(ENV{ARGS} "--output-on-failure")
+        set(CTEST_ARGS "--output-on-failure")
+    endif()
+    get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+    if(IS_MULTI_CONFIG)
+        # Multi-config generators need a configuration to run CTest, so take the first one in the list
+        # Which one does not really matter since it is mainly to test CMake code, not to compile things
+        list(GET CMAKE_CONFIGURATION_TYPES 0 CURRENT_CONFIG)
+        set(CTEST_ARGS ${CTEST_ARGS} -C ${CURRENT_CONFIG})
     endif()
     execute_process(
-        COMMAND ${CMAKE_COMMAND}
-            --build ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/build
-            --target test
+        COMMAND ${CMAKE_CTEST_COMMAND} ${CTEST_ARGS}
         RESULT_VARIABLE RESULT
+        WORKING_DIRECTORY ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/build
     )
     unset(CFORGE_UNIT_REGISTERED_TESTS CACHE)
     if(NOT RESULT EQUAL 0)
