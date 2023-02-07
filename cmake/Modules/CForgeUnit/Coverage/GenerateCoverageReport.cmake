@@ -317,8 +317,6 @@ function(_cforge_unit_coverage_generate_lcov_report TRACEFILE LCOV_OUTPUT)
     file(WRITE "${LCOV_OUTPUT}" ${COVERAGE_REPORT})
 endfunction()
 
-# TODO Find package Lcov/genhtml
-
 # Collect trace files in BINARY_DIR and generate a lcov report for each one
 function(_cforge_unit_coverage_generate_all_lcov_reports BINARY_DIR)
     file(GLOB_RECURSE TRACEFILES LIST_DIRECTORIES false ${BINARY_DIR}/*cforge-unit-coverage-traces.txt)
@@ -332,9 +330,11 @@ endfunction()
 function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
     file(REMOVE_RECURSE ${BINARY_DIR}/Coverage)
     file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*cforge-unit-coverage-report.txt)
+    cmake_path(CONVERT ${SOURCE_DIR} TO_NATIVE_PATH_LIST SOURCE_DIR NORMALIZE)
+    cmake_path(CONVERT ${BINARY_DIR}/Coverage TO_NATIVE_PATH_LIST OUTPUT_DIR NORMALIZE)
     execute_process(
         COMMAND
-            genhtml --prefix ${SOURCE_DIR} --output-directory ${BINARY_DIR}/Coverage
+            ${GenHTML_EXECUTABLE} --prefix ${SOURCE_DIR} --output-directory ${OUTPUT_DIR}
                 --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
         RESULT_VARIABLE RESULT
     )

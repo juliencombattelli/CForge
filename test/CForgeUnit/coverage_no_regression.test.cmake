@@ -8,6 +8,7 @@ execute_process(
         --trace --trace-redirect=${CMAKE_CURRENT_BINARY_DIR}/TestProject/cforge-unit-coverage-traces.txt
 )
 
+find_package(LCOV REQUIRED)
 cforge_unit_coverage_generate_coverage_report(${CMAKE_CURRENT_LIST_DIR}/TestProject ${CMAKE_CURRENT_BINARY_DIR}/TestProject)
 
 # TODO Add assertions on coverage results

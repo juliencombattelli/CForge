@@ -6,6 +6,7 @@ add_subdirectory(CForgeTargetAddWarnings)
 add_subdirectory(CForgeUnit)
 
 if(CFORGE_ENABLE_COVERAGE)
+    find_package(LCOV REQUIRED)
     cforge_unit_add_coverage()
 endif()
 
