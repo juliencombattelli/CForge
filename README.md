@@ -45,7 +45,7 @@ Check the modules documentation for further information.
 
 There are multiple ways to integrate CForge into a CMake project:
 
-- **CForgeConfig.cmake** — Install CForge into your system and use *find_package()* to locate it
+- **CForgeConfig.cmake** — Install CForge into your system and use *find_package(CForge)* to locate it
 - **FetchContent** — Use CMake's *FetchContent* module to download CForge and include it to your project
 - **Manual add_subdirectory** (not recommended) — Manually add CForge to your project (eg. by copying the sources or as a git-submodules) and use *add_subdirectory()* to include it
 
