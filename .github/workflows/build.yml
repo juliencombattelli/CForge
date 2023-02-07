@@ -42,7 +42,7 @@ jobs:
 
       - name: Configure
         run: |
-          cmake -S . -B build -DCFORGE_ENABLE_DOCUMENTATION=ON
+          cmake -S . -B build -DCFORGE_ENABLE_TESTING=ON -DCFORGE_ENABLE_COVERAGE=ON -DCFORGE_ENABLE_DOCUMENTATION=ON
 
       - name: Build
         run: |
