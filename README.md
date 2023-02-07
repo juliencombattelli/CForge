@@ -16,7 +16,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 - [Work in progress] **CForgeJSON** — Provide helper functions to parse JSON content
 - [Not yet implemented] **CForgeOption** — Provide a flexible way to declare project-wide options
 - [Not yet implemented] **CForgeTargetAddPrecompiledHeaders** — Add precompiled headers to a target
-- **CForgeTargetAddWarnings** — Add warnings to a target from a JSON file
+- **CForgeTargetAddWarnings** — Add warnings to a target from a dedicated CMake configuration file
 - [Not yet implemented] **CForgeTargetEnableCoverage** — Enable test coverage analysis for a target
 - [Not yet implemented] **CForgeTargetEnableInterproceduralOptimization** — Enable Link-Time Optimizations for a target
 - [Not yet implemented] **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
