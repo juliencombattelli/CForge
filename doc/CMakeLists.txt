@@ -27,7 +27,7 @@ add_custom_target(doc-patch-cmake-inventory
 # Run Sphinx to generate the html documentation
 # The generated target will always be considered out-of-date as sphinx already handled dependencies at file-level
 add_custom_target(doc
-    COMMAND "${SPHINX_EXECUTABLE}" -q -b html -c "${CACHE_DIR}" "${SOURCE_DIR}" "${OUT_DIR}"
+    COMMAND "${Sphinx_EXECUTABLE}" -q -b html -c "${CACHE_DIR}" "${SOURCE_DIR}" "${OUT_DIR}"
     COMMENT "Generating html documentation"
     DEPENDS "${CACHE_DIR}/conf.py"
     VERBATIM

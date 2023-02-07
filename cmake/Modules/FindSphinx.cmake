@@ -7,6 +7,7 @@ Find the Sphinx documentation generator.
 #]=======================================================================]
 
 # We are likely to find Sphinx near the Python interpreter
+# TODO use FindPython instead
 find_package(PythonInterp)
 if(PYTHONINTERP_FOUND)
     get_filename_component(_PYTHON_DIR "${PYTHON_EXECUTABLE}" DIRECTORY)
@@ -17,13 +18,19 @@ if(PYTHONINTERP_FOUND)
     )
 endif()
 
-find_program(SPHINX_EXECUTABLE
+find_program(Sphinx_EXECUTABLE
     NAMES sphinx-build sphinx-build.exe
     HINTS ${_PYTHON_PATHS}
     DOC "Path to sphinx-build executable"
 )
-mark_as_advanced(SPHINX_EXECUTABLE)
 
 include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Sphinx DEFAULT_MSG Sphinx_EXECUTABLE)
 
-find_package_handle_standard_args(Sphinx DEFAULT_MSG SPHINX_EXECUTABLE)
+if(Sphinx_FOUND)
+    mark_as_advanced(Sphinx_EXECUTABLE)
+    if(NOT TARGET Sphinx::Sphinx)
+        add_executable(Sphinx::Sphinx IMPORTED)
+        set_property(TARGET Sphinx::Sphinx PROPERTY IMPORTED_LOCATION ${Sphinx_EXECUTABLE})
+    endif()
+endif()
