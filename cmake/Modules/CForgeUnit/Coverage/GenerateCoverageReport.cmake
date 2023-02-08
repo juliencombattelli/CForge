@@ -327,7 +327,7 @@ function(_cforge_unit_coverage_generate_all_lcov_reports BINARY_DIR)
 endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate a html report
-function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
+function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR RESULT_VAR)
     set(OUTPUT_DIR "${BINARY_DIR}/CoverageHtmlReport")
     # Cleanup coverage output directory
     file(REMOVE_RECURSE "${OUTPUT_DIR}")
@@ -343,11 +343,15 @@ function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
                 --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
         WORKING_DIRECTORY "${NATIVE_SOURCE_DIR}"
         COMMAND_ECHO STDOUT
+        OUTPUT_VARIABLE GENHTML_OUTPUT
         RESULT_VARIABLE RESULT
     )
     if(NOT RESULT EQUAL 0)
         message(SEND_ERROR "genhtml finished with errors")
     endif()
+    string(REGEX REPLACE ".*branches[.]+: ([0-9.]+).*" "\\1" BRANCH_COVERAGE "${GENHTML_OUTPUT}")
+    string(REGEX REPLACE ".*lines[.]+: ([0-9.]+).*" "\\1" LINE_COVERAGE "${GENHTML_OUTPUT}")
+    set(${RESULT_VAR} "line:${LINE_COVERAGE} branch:${BRANCH_COVERAGE}" PARENT_SCOPE)
 endfunction()
 
 function(_cforge_unit_coverage_cleanup_cache)
@@ -360,10 +364,10 @@ function(_cforge_unit_coverage_cleanup_cache)
 endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate an html report
-function(cforge_unit_coverage_generate_coverage_report SOURCE_DIR BINARY_DIR)
+function(cforge_unit_coverage_generate_coverage_report SOURCE_DIR BINARY_DIR RESULT_VAR)
     _cforge_unit_coverage_cleanup_cache()
     set(_CFORGE_UNIT_COVERAGE_INCLUSION_PATTERN "^${SOURCE_DIR}.*")
-    # TODO Add test step to validate coverage implementation before use
     _cforge_unit_coverage_generate_all_lcov_reports("${BINARY_DIR}")
-    _cforge_unit_coverage_generate_html_report("${SOURCE_DIR}" "${BINARY_DIR}")
+    _cforge_unit_coverage_generate_html_report("${SOURCE_DIR}" "${BINARY_DIR}" ${RESULT_VAR})
+    set(${RESULT_VAR} "${${RESULT_VAR}}" PARENT_SCOPE)
 endfunction()
