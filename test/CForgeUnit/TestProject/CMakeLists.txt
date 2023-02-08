@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 project(cforge_unit_coverage_test_project LANGUAGES NONE)
 
-set(VAR "a;c;b") #[==[ Hello ]==] #[===[
+set(FOO "a;c;b") #[==[ Hello ]==] #[===[
 hello
  <- this is not the closing bracket
 ]
 
 ]===]
+set(BAR)
 
-if(UNIX)
-    if(APPLE)
+if(FOO)
+    if(BAR)
         message("")
     elseif()
         message("")
