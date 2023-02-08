@@ -328,12 +328,21 @@ endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate a html report
 function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR)
-    file(REMOVE_RECURSE ${BINARY_DIR}/Coverage)
+    set(OUTPUT_DIR "${BINARY_DIR}/CoverageHtmlReport")
+    # Cleanup coverage output directory
+    file(REMOVE_RECURSE "${OUTPUT_DIR}")
+    file(MAKE_DIRECTORY "${OUTPUT_DIR}")
+    # Find all generated coverage reports
     file(GLOB_RECURSE REPORTS LIST_DIRECTORIES false ${BINARY_DIR}/*cforge-unit-coverage-report.txt)
+    # Convert CMake paths to native paths before genhtml execution
+    file(TO_NATIVE_PATH "${SOURCE_DIR}" NATIVE_SOURCE_DIR)
+    file(TO_NATIVE_PATH "${OUTPUT_DIR}" NATIVE_OUTPUT_DIR)
     execute_process(
         COMMAND
-            ${GenHTML_EXECUTABLE} --prefix ${SOURCE_DIR} --output-directory ${BINARY_DIR}/Coverage
+            ${GenHTML_EXECUTABLE} --output-directory "${NATIVE_OUTPUT_DIR}"
                 --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
+        WORKING_DIRECTORY "${NATIVE_SOURCE_DIR}"
+        COMMAND_ECHO STDOUT
         RESULT_VARIABLE RESULT
     )
     if(NOT RESULT EQUAL 0)
