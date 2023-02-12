@@ -9,7 +9,11 @@ execute_process(
 )
 
 find_package(LCOV REQUIRED)
-cforge_unit_coverage_generate_coverage_report(${CMAKE_CURRENT_LIST_DIR}/TestProject ${CMAKE_CURRENT_BINARY_DIR}/TestProject OUTPUT)
+cforge_unit_coverage_generate_coverage_report(
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/TestProject"
+    BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/TestProject"
+    RESULT_VAR OUTPUT
+)
 
 cforge_assert(CONDITION "${OUTPUT}" STREQUAL "line:76.9 branch:42.9"
     MESSAGE "Results for control file changed. Have you updated the control file recently?"

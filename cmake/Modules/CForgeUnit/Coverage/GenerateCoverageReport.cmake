@@ -207,7 +207,14 @@ function(_cforge_unit_coverage_get_hit_lines TRACEFILE)
         set(LINENO ${CMAKE_MATCH_2})
         set(LINE_CONTENT ${CMAKE_MATCH_3})
 
-        if(NOT FILENAME MATCHES "${_CFORGE_UNIT_COVERAGE_INCLUSION_PATTERN}")
+        foreach(ENTRY IN LISTS _CFORGE_UNIT_COVERAGE_INCLUDE)
+            cmake_path(IS_PREFIX ENTRY "${FILENAME}" NORMALIZE IS_FILENAME_INCLUDED)
+            if(IS_FILENAME_INCLUDED)
+                break()
+            endif()
+        endforeach()
+
+        if(NOT IS_FILENAME_INCLUDED)
             message(DEBUG "Skipping ${FILENAME}")
             continue()
         endif()
@@ -344,6 +351,7 @@ function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR RESULT
         WORKING_DIRECTORY "${NATIVE_SOURCE_DIR}"
         COMMAND_ECHO STDOUT
         OUTPUT_VARIABLE GENHTML_OUTPUT
+        ECHO_OUTPUT_VARIABLE
         RESULT_VARIABLE RESULT
     )
     if(NOT RESULT EQUAL 0)
@@ -364,10 +372,19 @@ function(_cforge_unit_coverage_cleanup_cache)
 endfunction()
 
 # Collect lcov reports in BINARY_DIR and generate an html report
-function(cforge_unit_coverage_generate_coverage_report SOURCE_DIR BINARY_DIR RESULT_VAR)
+function(cforge_unit_coverage_generate_coverage_report)
+    cmake_parse_arguments(ARG "" "SOURCE_DIR;BINARY_DIR;RESULT_VAR" "INCLUDE" ${ARGN})
+    cforge_assert(CONDITION DEFINED ARG_SOURCE_DIR MESSAGE "SOURCE_DIR argument is required")
+    cforge_assert(CONDITION DEFINED ARG_BINARY_DIR MESSAGE "BINARY_DIR argument is required")
     _cforge_unit_coverage_cleanup_cache()
-    set(_CFORGE_UNIT_COVERAGE_INCLUSION_PATTERN "^${SOURCE_DIR}.*")
-    _cforge_unit_coverage_generate_all_lcov_reports("${BINARY_DIR}")
-    _cforge_unit_coverage_generate_html_report("${SOURCE_DIR}" "${BINARY_DIR}" ${RESULT_VAR})
-    set(${RESULT_VAR} "${${RESULT_VAR}}" PARENT_SCOPE)
+    if(NOT ARG_INCLUDE)
+        set(_CFORGE_UNIT_COVERAGE_INCLUDE "${ARG_SOURCE_DIR}")
+    else()
+        set(_CFORGE_UNIT_COVERAGE_INCLUDE "${ARG_INCLUDE}")
+    endif()
+    _cforge_unit_coverage_generate_all_lcov_reports("${ARG_BINARY_DIR}")
+    _cforge_unit_coverage_generate_html_report("${ARG_SOURCE_DIR}" "${ARG_BINARY_DIR}" COVERAGE_RESULT_SUMMARY)
+    if(ARG_RESULT_VAR)
+        set(${ARG_RESULT_VAR} "${COVERAGE_RESULT_SUMMARY}" PARENT_SCOPE)
+    endif()
 endfunction()

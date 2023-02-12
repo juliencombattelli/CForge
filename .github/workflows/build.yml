@@ -48,6 +48,12 @@ jobs:
         run: |
           cmake --build build
 
+      - name: Remove Git-Bash Unix tools from PATH on Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: pwsh
+        run: |
+          Rename-Item "C:\\Program Files\\Git\\usr" "C:\\Program Files\\Git\\usr.bak"
+
       - name: Run tests
         working-directory: build
         run: |
@@ -56,3 +62,9 @@ jobs:
       - name: Generate docs
         run: |
           cmake --build build --target doc
+
+      # - name: Upload
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     path: .
+      #     name: build-tree.${{ matrix.os }}
