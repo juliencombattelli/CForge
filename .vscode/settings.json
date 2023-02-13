@@ -3,5 +3,8 @@
     "files.associations": {
         "*.cmake.in": "cmake",
         "*CMakeLists.txt.in": "cmake"
-    }
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true
 }
