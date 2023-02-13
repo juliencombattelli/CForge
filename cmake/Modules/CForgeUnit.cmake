@@ -7,6 +7,8 @@ endif()
 
 include_guard()
 
+include(CForgeAssert)
+
 # Global variables:
 # CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION: run all tests at configuration
 # CFORGE_UNIT_VERBOSE: make test executed at configuration verbose
@@ -27,12 +29,8 @@ function(cforge_unit_add_test)
         ${ARGN}
     )
 
-    if(NOT ARG_TEST_SUITE)
-        message(FATAL_ERROR "TEST_SUITE argument is required")
-    endif()
-    if(NOT ARG_TEST_CASE)
-        message(FATAL_ERROR "TEST_CASE argument is required")
-    endif()
+    cforge_assert(CONDITION ARG_TEST_SUITE MESSAGE "TEST_SUITE argument is required")
+    cforge_assert(CONDITION ARG_TEST_CASE MESSAGE "TEST_CASE argument is required")
 
     if(NOT ARG_LANGUAGES)
         set(ARG_LANGUAGES NONE)
@@ -46,9 +44,9 @@ function(cforge_unit_add_test)
         set(ARG_SCRIPT "${ARG_TEST_CASE}.test.cmake")
     endif()
     get_filename_component(CFORGE_UNIT_CURRENT_TEST_SCRIPT_FILE "${ARG_SCRIPT}" ABSOLUTE)
-    if(NOT EXISTS "${CFORGE_UNIT_CURRENT_TEST_SCRIPT_FILE}")
-        message(FATAL_ERROR "Test script file not found: ${CFORGE_UNIT_CURRENT_TEST_SCRIPT_FILE}")
-    endif()
+    cforge_assert(CONDITION EXISTS "${CFORGE_UNIT_CURRENT_TEST_SCRIPT_FILE}"
+        MESSAGE "Test script file not found: ${CFORGE_UNIT_CURRENT_TEST_SCRIPT_FILE}"
+    )
 
     # Path to the CForgeUnit CMake module sources
     set(CFORGE_UNIT_SOURCE_DIR "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/CForgeUnit")
@@ -137,7 +135,5 @@ function(cforge_unit_run_tests)
         WORKING_DIRECTORY ${${CFORGE_UNIT_PROJECT}_BINARY_DIR}/CForgeUnit/Registrar/build
     )
     unset(CFORGE_UNIT_REGISTERED_TESTS CACHE)
-    if(NOT RESULT EQUAL 0)
-        message(FATAL_ERROR "CForgeUnit test failure")
-    endif()
+    cforge_assert(CONDITION RESULT EQUAL 0 MESSAGE "CForgeUnit test failure")
 endfunction()

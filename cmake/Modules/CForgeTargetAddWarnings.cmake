@@ -42,9 +42,7 @@ endfunction()
 function(cforge_target_add_warnings TARGET_NAME)
     cmake_parse_arguments("ARG" "WARNING_AS_ERROR" "CONFIG_FILE" "" ${ARGN})
 
-    if(NOT TARGET ${TARGET_NAME})
-        message(FATAL_ERROR "Target ${TARGET_NAME} is not defined.")
-    endif()
+    cforge_assert(CONDITION TARGET ${TARGET_NAME} MESSAGE "Target ${TARGET_NAME} is not defined.")
 
     if(ARG_WARNING_AS_ERROR)
         message(WARNING "`Warning as error` is not implemented for now and will be available with CMake 3.24+ only.")

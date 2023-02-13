@@ -32,7 +32,7 @@ function(cforge_define_warning_profile)
         while(TRUE)
             # Ensure first element is PROFILES keyword argument
             list(GET INHERITED_PROFILES 0 FIRST_ELEMENT)
-            cforge_assert(CONDITION "${FIRST_ELEMENT}" STREQUAL "PROFILES")
+            cforge_assert(CONDITION FIRST_ELEMENT STREQUAL "PROFILES")
             # Remove first PROFILES keyword and find the next one
             list(POP_FRONT INHERITED_PROFILES)
             list(FIND INHERITED_PROFILES "PROFILES" NEXT_PROFILE_IDX)
