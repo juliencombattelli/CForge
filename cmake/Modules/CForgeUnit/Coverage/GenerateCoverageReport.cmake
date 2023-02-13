@@ -343,7 +343,11 @@ function(_cforge_unit_coverage_generate_html_report SOURCE_DIR BINARY_DIR RESULT
     execute_process(
         COMMAND
             ${GenHTML_EXECUTABLE} --output-directory "${NATIVE_OUTPUT_DIR}"
-                --rc genhtml_branch_coverage=1 --no-function-coverage ${REPORTS}
+                --rc genhtml_branch_coverage=1
+                --rc genhtml_dark_mode=1 # Added in lcov 1.16, ignored if not supported
+                --rc genhtml_hierarchical=1 # Added in lcov 1.16, ignored if not supported
+                --no-function-coverage
+                ${REPORTS}
         WORKING_DIRECTORY "${NATIVE_SOURCE_DIR}"
         COMMAND_ECHO STDOUT
         OUTPUT_VARIABLE GENHTML_OUTPUT
