@@ -54,9 +54,9 @@ There are multiple ways to integrate CForge into a CMake project:
 ### Options
 
 - **CFORGE_ENABLE_TESTING** — Build the unit tests (default: ON)
+- **CFORGE_ENABLE_TESTING_AT_CONF** — Run CForge test suite at configuration instead of during CTest phase (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
 - [Not yet implemented] **CFORGE_ENABLE_FUZZING** — Build the fuzzy tests (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
-- **CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION** — Run CForge test suite at configuration instead of during CTest phase (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
-- **CFORGE_ENABLE_COVERAGE** — Build with test coverage analysis (default: OFF, needs CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION=ON)
+- **CFORGE_ENABLE_COVERAGE** — Build with test coverage analysis (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
 - **CFORGE_ENABLE_DOCUMENTATION** — Generate the html documentation using Sphinx (default: OFF)
 
 ## Contributing
