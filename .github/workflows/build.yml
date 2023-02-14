@@ -59,6 +59,12 @@ jobs:
         run: |
           ctest --output-on-failure --verbose -C Release
 
+      - name: Restore Git-Bash Unix tools on Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: pwsh
+        run: |
+          Rename-Item "C:\\Program Files\\Git\\usr.bak" "C:\\Program Files\\Git\\usr"
+
       - name: Generate docs
         run: |
           cmake --build build --target doc
