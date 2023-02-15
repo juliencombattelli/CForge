@@ -5,7 +5,7 @@ if(NOT CFORGE_UNIT_PROJECT)
     set(CFORGE_UNIT_PROJECT ${PROJECT_NAME})
 endif()
 
-include_guard()
+include_guard(GLOBAL)
 
 include(CForgeAssert)
 
