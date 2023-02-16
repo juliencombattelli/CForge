@@ -1,10 +1,46 @@
-#[=======================================================================[.rst:
+#[=================================================================================================[.rst:
 FindSphinx
 ----------
 
 Find the Sphinx documentation generator.
 
-#]=======================================================================]
+Hints
+^^^^^
+
+This module reads hints about search locations from variables:
+
+``Sphinx_ROOT``
+Preferred installation prefix.
+
+Users may set these hints as normal CMake variables, cache entries or environment variables.
+
+Imported Targets
+^^^^^^^^^^^^^^^^
+
+This module provides the following imported targets, if found:
+
+``Sphinx::Sphinx``
+  The sphinx executable.
+
+Result Variables
+^^^^^^^^^^^^^^^^
+
+This will define the following variables:
+
+``SphinxFOUND``
+  True if the system has Sphinx installed.
+``Sphinx_VERSION``
+  The version of Sphinx which was found.
+
+Cache Variables
+^^^^^^^^^^^^^^^
+
+The following cache variables may also be set:
+
+``Sphinx_EXECUTABLE``
+  The full path to sphinx-build executable.
+
+#]=================================================================================================]
 
 find_package(Python3 COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND)
