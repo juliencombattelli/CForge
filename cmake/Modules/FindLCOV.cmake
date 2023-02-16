@@ -1,3 +1,66 @@
+#[=================================================================================================[.rst:
+FindLCOV
+--------
+
+Finds the coverage analysis tools from LCOV project.
+
+.. note:: LCOV consists of several Perl scripts. As such, a Perl interpreter must also be available
+  and is searched for using :cmake:module:`FindPerl` module from the official CMake distribution.
+
+Hints
+^^^^^
+
+This module reads hints about search locations from variables:
+
+``LCOV_ROOT``
+Preferred installation prefix.
+
+Users may set these hints as normal CMake variables, cache entries or environment variables.
+
+Imported Targets
+^^^^^^^^^^^^^^^^
+
+This module provides the following imported targets, if found:
+
+``LCOV::LCOV``
+  The lcov coverage data collector executable.
+
+``LCOV::GenHTML``
+  The genhtml coverage report generator executable.
+
+Result Variables
+^^^^^^^^^^^^^^^^
+
+This will define the following variables:
+
+``LCOV_FOUND``
+  True if the system has LCOV installed.
+``LCOV_VERSION``
+  The version of LCOV which was found.
+
+Cache Variables
+^^^^^^^^^^^^^^^
+
+The following cache variables may also be set:
+
+``LCOV_EXECUTABLE``
+  The full path to lcov executable (including Perl interpreter).
+``GenHTML_EXECUTABLE``
+  The full path to genhtml executable (including Perl interpreter).
+
+Design note
+^^^^^^^^^^^
+
+Each script from LCOV project may depend on each other.
+From one version to another, these dependencies may change, and scripts may be added or removed.
+Consequenlty, to have a robust and maintanable find module, only the scripts that are actually
+useful from a user perspective and independant from each others will be searched for.
+Those scripts are lcov and genhtml.
+They must be both sucessfully located to consider that LCOV was found. In other words, they are
+not treated as components.
+
+#]=================================================================================================]
+
 find_package(Perl)
 
 find_program(LCOV_EXECUTABLE
