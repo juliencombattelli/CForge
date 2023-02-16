@@ -6,11 +6,10 @@ Find the Sphinx documentation generator.
 
 #]=======================================================================]
 
-# We are likely to find Sphinx near the Python interpreter
-# TODO use FindPython instead
-find_package(PythonInterp)
-if(PYTHONINTERP_FOUND)
-    get_filename_component(_PYTHON_DIR "${PYTHON_EXECUTABLE}" DIRECTORY)
+find_package(Python3 COMPONENTS Interpreter)
+if(Python3_Interpreter_FOUND)
+    # We are likely to find Sphinx near the Python interpreter
+    get_filename_component(_PYTHON_DIR "${Python3_EXECUTABLE}" DIRECTORY)
     set(_PYTHON_PATHS
         "${_PYTHON_DIR}"
         "${_PYTHON_DIR}/bin"
