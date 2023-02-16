@@ -23,8 +23,20 @@ find_program(Sphinx_EXECUTABLE
     DOC "Path to sphinx-build executable"
 )
 
+if(Sphinx_EXECUTABLE)
+    execute_process(
+        COMMAND ${Sphinx_EXECUTABLE} --version
+        OUTPUT_VARIABLE Sphinx_VERSION
+    )
+    string(REGEX REPLACE "^sphinx-build (.*)" "\\1" Sphinx_VERSION "${Sphinx_VERSION}")
+    string(STRIP "${Sphinx_VERSION}" Sphinx_VERSION)
+endif()
+
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Sphinx DEFAULT_MSG Sphinx_EXECUTABLE)
+find_package_handle_standard_args(Sphinx
+    REQUIRED_VARS Sphinx_EXECUTABLE
+    VERSION_VAR Sphinx_VERSION
+)
 
 if(Sphinx_FOUND)
     mark_as_advanced(Sphinx_EXECUTABLE)
