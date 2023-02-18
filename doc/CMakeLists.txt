@@ -17,7 +17,7 @@ endif()
 # Fetch and patch the Sphinx inventory file from cmake.org to have working links to CMake documentation
 # The generated target will always be considered out-of-date since the upstream CMake inventory can change
 add_custom_target(doc-patch-cmake-inventory
-    COMMAND "${PYTHON_EXECUTABLE}" -B "${SOURCE_DIR}/patch-cmake-objects-inv.py" ${CERTIFICATE_CHECK_OPTION}
+    COMMAND "${Python3_EXECUTABLE}" -B "${SOURCE_DIR}/patch-cmake-objects-inv.py" ${CERTIFICATE_CHECK_OPTION}
         "${CACHE_DIR}/cmake-objects.patched.inv"
     COMMENT "Patching Sphinx inventory file from cmake.org"
     DEPENDS "${SOURCE_DIR}/patch-cmake-objects-inv.py"
