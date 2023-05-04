@@ -110,9 +110,13 @@ function(cforge_json_get_array_as_list)
     cmake_parse_arguments("ARG" "OPTIONAL" "RESULT_VARIABLE;JSON" "MEMBER" ${ARGN})
 
     cforge_assert(CONDITION ARG_RESULT_VARIABLE MESSAGE "Missing required argument: RESULT_VARIABLE")
-    # TODO Seems to fail for empty JSON strings, to be investigated
-    cforge_assert(CONDITION DEFINED ARG_JSON MESSAGE "Missing required argument: JSON")
     cforge_assert(CONDITION ARG_MEMBER MESSAGE "Missing required argument: MEMBER")
+
+    if(NOT ARG_JSON)
+        # If JSON string is not provided or empty, return an empty list
+        set(${ARG_RESULT_VARIABLE} "" PARENT_SCOPE)
+        return()
+    endif()
 
     string(JSON MEMBER_TYPE ERROR_VARIABLE ERROR TYPE ${ARG_JSON} ${ARG_MEMBER})
 
