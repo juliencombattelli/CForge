@@ -29,7 +29,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 - **FindGDB** — Find the GDB executable for the current toolchain
 - **FindLCOV** — Find the LCOV code coverage report generation tool
-- [Not yet implemented] **FindOpenOCD** — Find the OpenOCD executable
+- **FindOpenOCD** — Find the OpenOCD executable
 - **FindSphinx** — Find the Sphinx documentation generator
 
 ### Toolchains
