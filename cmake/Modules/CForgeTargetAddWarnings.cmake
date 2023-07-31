@@ -1,5 +1,5 @@
-# Requires CMAKE_CURRENT_FUNCTION_LIST_DIR
-cmake_minimum_required(VERSION 3.17)
+# Requires COMPILE_WARNING_AS_ERROR
+cmake_minimum_required(VERSION 3.24)
 
 include_guard(GLOBAL)
 
@@ -7,7 +7,7 @@ include_guard(GLOBAL)
 CForgeTargetAddWarnings
 -----------------------
 
-Add some warnings from a config file to a CMake target.
+Add warnings from a config file to a CMake target.
 
 .. cmake:command:: cforge_target_add_warnings
 
@@ -23,8 +23,10 @@ cmake/Modules/CForgeTargetAddWarnings/default-warnings.cmake will be used. This 
 provides a reasonable set of warnings for GCC, Clang and MSVC that may be enabled in all projects.
 
 The ``WARNING_AS_ERROR`` optional argument turns warnings into errors.
-TODO This is not implemented for now. Using it will cause a configuration warning.
-It may be implemented using COMPILE_WARNING_AS_ERROR target property, requiring CMake 3.24+.
+It may not be implemented for all compilers. Checkout the
+`CMake documentation <https://cmake.org/cmake/help/latest/prop_tgt/COMPILE_WARNING_AS_ERROR.html>`_
+for more informations.
+
 #]=================================================================================================]
 
 function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
@@ -45,7 +47,7 @@ function(cforge_target_add_warnings TARGET_NAME)
     cforge_assert(CONDITION TARGET ${TARGET_NAME} MESSAGE "Target ${TARGET_NAME} is not defined.")
 
     if(ARG_WARNING_AS_ERROR)
-        message(WARNING "`Warning as error` is not implemented for now and will be available with CMake 3.24+ only.")
+        set_target_properties(${TARGET_NAME} PROPERTIES COMPILE_WARNING_AS_ERROR TRUE)
     endif()
 
     _use_default_warning_config_file_if_arg_not_set(ARG_CONFIG_FILE)
