@@ -28,7 +28,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 ### Find modules
 
 - [Not yet implemented] **FindGDB** — Find the GDB executable for the current toolchain
-- [Work in progress] **FindLCOV** — Find the LCOV code coverage report generation tool
+- **FindLCOV** — Find the LCOV code coverage report generation tool
 - [Not yet implemented] **FindOpenOCD** — Find the OpenOCD executable
 - **FindSphinx** — Find the Sphinx documentation generator
 
