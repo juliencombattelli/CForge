@@ -10,7 +10,7 @@ Hints
 This module reads hints about search locations from variables:
 
 ``Sphinx_ROOT``
-Preferred installation prefix.
+  Preferred installation prefix.
 
 Users may set these hints as normal CMake variables, cache entries or environment variables.
 
@@ -70,8 +70,10 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sphinx
-    REQUIRED_VARS Sphinx_EXECUTABLE
-    VERSION_VAR Sphinx_VERSION
+    REQUIRED_VARS
+        Sphinx_EXECUTABLE
+    VERSION_VAR
+        Sphinx_VERSION
 )
 
 if(Sphinx_FOUND)
