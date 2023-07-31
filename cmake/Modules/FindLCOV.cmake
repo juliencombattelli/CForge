@@ -13,7 +13,7 @@ Hints
 This module reads hints about search locations from variables:
 
 ``LCOV_ROOT``
-Preferred installation prefix.
+  Preferred installation prefix.
 
 Users may set these hints as normal CMake variables, cache entries or environment variables.
 
@@ -84,8 +84,10 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LCOV
-    REQUIRED_VARS LCOV_EXECUTABLE GenHTML_EXECUTABLE PERL_FOUND
-    VERSION_VAR LCOV_VERSION
+    REQUIRED_VARS
+        LCOV_EXECUTABLE GenHTML_EXECUTABLE PERL_FOUND
+    VERSION_VAR
+        LCOV_VERSION
 )
 
 if(LCOV_FOUND)
