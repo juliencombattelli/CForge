@@ -15,6 +15,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 - [Not yet implemented] **CForgeFetchFmt** — Fetch the Fmt library using FetchContent
 - [Not yet implemented] **CForgeFetchGoogleTest** — Fetch the GoogleTest framework using FetchContent
 - [Not yet implemented] **CForgeFetchSpdlog** — Fetch the Spdlog library using FetchContent
+- **CForgeForceColoredOutput** — Force some compilers to always produce ANSI-colored output
 - [Work in progress] **CForgeJSON** — Provide helper functions to parse JSON content
 - [Not yet implemented] **CForgeOption** — Provide a flexible way to declare project-wide options
 - [Not yet implemented] **CForgeTargetAddPrecompiledHeaders** — Add precompiled headers to a target
