@@ -1,6 +1,7 @@
+# Block(PROPAGATE) from CMake 3.25
 # Bug with CMake trace feature fixed in 3.24
 # See https://gitlab.kitware.com/cmake/cmake/-/merge_requests/7118
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.25)
 
 include(CForgeJSON)
 
@@ -155,8 +156,17 @@ function(_cforge_unit_coverage_get_executable_lines FILE)
                 JSON "${CURRENT_FILE_OBJECT}" MEMBER blocks ${CURRENT_BLOCK_INDEX} branches VALUE "${CURRENT_BRANCH_OBJECT}"
             )
             set(INSIDE_BRANCH TRUE)
+            if(CMAKE_MATCH_1 STREQUAL "else")
+                set(ELSE_BRANCH_PARSED TRUE)
+            endif()
         endif()
         if(LINE MATCHES "^[ \t\r]*endif[ \t\r]*\\(")
+            if(NOT ELSE_BRANCH_PARSED) # Implicit else branch
+                set(CURRENT_BRANCH_OBJECT "{ \"line\": ${LINE_COUNTER}, \"first_exec_line\": 0, \"type\": \"implicit-else\"}")
+                cforge_json_append(OUT CURRENT_FILE_OBJECT INDEX CURRENT_BRANCH_INDEX
+                    JSON "${CURRENT_FILE_OBJECT}" MEMBER blocks ${CURRENT_BLOCK_INDEX} branches VALUE "${CURRENT_BRANCH_OBJECT}"
+                )
+            endif()
             math(EXPR CURRENT_BLOCK_INDEX "${CURRENT_BLOCK_INDEX} - 1")
             cforge_assert(CONDITION CURRENT_BLOCK_INDEX GREATER_EQUAL -1 MESSAGE "Syntax error in file")
             set(INSIDE_BRANCH FALSE)
@@ -258,6 +268,7 @@ function(_cforge_unit_coverage_generate_lcov_branch_report_for_file FILENAME REP
         foreach(BRANCH IN LISTS BRANCHES)
             string(JSON BRANCH_LINE GET "${BRANCH}" line)
             string(JSON FIRST_EXEC_LINE GET "${BRANCH}" first_exec_line)
+            string(JSON BRANCH_TYPE GET "${BRANCH}" type)
             set(BRANCH_HIT_VARIABLE "_CFORGE_UNIT_COVERAGE_HIT_BRANCH_${FILENAME}_${BRANCH_LINE}")
             set(FIRST_LINE_HIT_VARIABLE "_CFORGE_UNIT_COVERAGE_HIT_LINE_${FILENAME}_${FIRST_EXEC_LINE}")
             # Must check the branch and its first executed line since cmake --trace
@@ -267,6 +278,28 @@ function(_cforge_unit_coverage_generate_lcov_branch_report_for_file FILENAME REP
             else()
                 set(HIT_COUNT ${${BRANCH_HIT_VARIABLE}})
                 math(EXPR BRANCH_HIT "${BRANCH_HIT} + 1")
+            endif()
+            # Handle implicit-else case separatly as it is not reported in the traces
+            if(BRANCH_TYPE STREQUAL "implicit-else")
+                block(PROPAGATE HIT_COUNT)
+                    # Get previous block
+                    math(EXPR PREVIOUS_BRANCH_INDEX "${BRANCH_INDEX} - 1")
+                    list(GET BRANCHES ${PREVIOUS_BRANCH_INDEX} PREVIOUS_BRANCH)
+                    # Get previous branch line number and hit count
+                    string(JSON PREVIOUS_BRANCH_LINE GET "${PREVIOUS_BRANCH}" line)
+                    set(PREVIOUS_BRANCH_HIT_VARIABLE "_CFORGE_UNIT_COVERAGE_HIT_BRANCH_${FILENAME}_${PREVIOUS_BRANCH_LINE}")
+                    if(NOT ${PREVIOUS_BRANCH_HIT_VARIABLE})
+                        set(${PREVIOUS_BRANCH_HIT_VARIABLE} 0)
+                    endif()
+                    # Get previous branch first executed line number and hit count
+                    string(JSON PREVIOUS_FIRST_EXEC_LINE GET "${PREVIOUS_BRANCH}" first_exec_line)
+                    set(PREVIOUS_FIRST_LINE_HIT_VARIABLE "_CFORGE_UNIT_COVERAGE_HIT_LINE_${FILENAME}_${PREVIOUS_FIRST_EXEC_LINE}")
+                    if(NOT ${PREVIOUS_FIRST_LINE_HIT_VARIABLE})
+                        set(${PREVIOUS_FIRST_LINE_HIT_VARIABLE} 0)
+                    endif()
+                    # Substract the previous branch hit count with its first executed line hit count
+                    math(EXPR HIT_COUNT "${${PREVIOUS_BRANCH_HIT_VARIABLE}} - ${${PREVIOUS_FIRST_LINE_HIT_VARIABLE}}")
+                endblock()
             endif()
             list(APPEND ${REPORT} "BRDA:${BLOCK_LINE},${BLOCK_INDEX},${BRANCH_INDEX},${HIT_COUNT}")
             math(EXPR BRANCH_INDEX "${BRANCH_INDEX} + 1")
