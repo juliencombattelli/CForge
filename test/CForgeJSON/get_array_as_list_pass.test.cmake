@@ -5,7 +5,7 @@ cforge_json_get_array_as_list(
     JSON ""
     MEMBER abc
 )
-cforge_assert_that(string MEMBER_STRING is_empty)
+cforge_assert(CONDITION NOT MEMBER_STRING)
 
 cforge_json_get_array_as_list(
     RESULT_VARIABLE MEMBER_STRING

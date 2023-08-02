@@ -9,7 +9,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 ### Utility modules
 
-- [Work in progress] **CForgeAssert** — Provide a flexible and expressive assertion mechanism
+- **CForgeAssert** — Provide a simple assertion mechanism
 - [Not yet implemented] **CForgeConan** — Integrate the Conan package manager into a CMake project
 - [Not yet implemented] **CForgeDoc** — Generate rst-formatted documentation using Sphinx
 - [Not yet implemented] **CForgeFetchFmt** — Fetch the Fmt library using FetchContent
