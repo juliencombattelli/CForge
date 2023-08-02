@@ -276,7 +276,7 @@ function(_cforge_unit_coverage_generate_lcov_branch_report_for_file FILENAME REP
             if(NOT "${${BRANCH_HIT_VARIABLE}}" OR NOT "${${FIRST_LINE_HIT_VARIABLE}}")
                 set(HIT_COUNT 0) # Branch was not hit
             else()
-                set(HIT_COUNT ${${BRANCH_HIT_VARIABLE}})
+                set(HIT_COUNT ${${FIRST_LINE_HIT_VARIABLE}})
                 math(EXPR BRANCH_HIT "${BRANCH_HIT} + 1")
             endif()
             # Handle implicit-else case separatly as it is not reported in the traces
