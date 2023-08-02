@@ -112,9 +112,11 @@ function(cforge_json_get_array_as_list)
     cforge_assert(CONDITION ARG_RESULT_VARIABLE MESSAGE "Missing required argument: RESULT_VARIABLE")
     cforge_assert(CONDITION ARG_MEMBER MESSAGE "Missing required argument: MEMBER")
 
+    set(${ARG_RESULT_VARIABLE} "")
+
     if(NOT ARG_JSON)
         # If JSON string is not provided or empty, return an empty list
-        set(${ARG_RESULT_VARIABLE} "" PARENT_SCOPE)
+        set(${ARG_RESULT_VARIABLE} "${${ARG_RESULT_VARIABLE}}" PARENT_SCOPE)
         return()
     endif()
 
@@ -136,16 +138,14 @@ function(cforge_json_get_array_as_list)
                     string(JSON ARRAY_ITEM GET ${ARG_JSON} ${ARG_MEMBER} ${IDX})
                     list(APPEND ${ARG_RESULT_VARIABLE} ${ARRAY_ITEM})
                 endforeach()
-                set(${ARG_RESULT_VARIABLE} ${${ARG_RESULT_VARIABLE}} PARENT_SCOPE)
-                return()
             endif()
         else()
             string(JSON SINGLE_ITEM GET ${ARG_JSON} ${ARG_MEMBER})
             list(APPEND ${ARG_RESULT_VARIABLE} ${SINGLE_ITEM})
-            set(${ARG_RESULT_VARIABLE} ${${ARG_RESULT_VARIABLE}} PARENT_SCOPE)
-            return()
         endif()
     endif()
+    set(${ARG_RESULT_VARIABLE} ${${ARG_RESULT_VARIABLE}} PARENT_SCOPE)
+    return()
 endfunction()
 
 # TODO Find if in array
