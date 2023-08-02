@@ -34,5 +34,10 @@ for obj in inv.objects:
     if obj.domain == 'cmake' and obj.name.startswith(f'{obj.role}:'):
         obj.name = obj.name[len(f'{obj.role}:'):]
 
+# Add some links to missing commands
+string_json = soi.DataObjStr(name='string(json)', domain='cmake', role='command',
+                             uri='command/string.html#json', priority='0', dispname='-')
+inv.objects.append(string_json)
+
 # Write the resulting inventory objects into the output file
 soi.writebytes(args.patched_inv_file, soi.compress(inv.data_file()))
