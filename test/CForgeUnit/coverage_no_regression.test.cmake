@@ -15,6 +15,8 @@ cforge_unit_coverage_generate_coverage_report(
     RESULT_VAR OUTPUT
 )
 
-cforge_assert(CONDITION OUTPUT STREQUAL "line:76.9 branch:42.9"
-    MESSAGE "Results for control file changed. Have you updated the control file recently?"
+cforge_assert(CONDITION OUTPUT STREQUAL "line:76.9 branch:40.0"
+    MESSAGE
+        "Results for control file changed. Have you updated the control file "
+        "or change the coverage analysis algorithm recently?"
 )
