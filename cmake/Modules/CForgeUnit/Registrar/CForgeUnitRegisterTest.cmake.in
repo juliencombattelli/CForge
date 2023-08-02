@@ -10,6 +10,11 @@ set(TEST_IS_COVERAGE "@TEST_IS_COVERAGE@")
 # CMake's trace mechanism is used for test coverage reporting
 if(NOT TEST_IS_COVERAGE)
     set(TRACE_OPTIONS --trace --trace-redirect=${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/cforge-unit-coverage-traces.txt)
+else()
+    # Use this super-secret setting to debug the coverage analysis
+    if(_CFORGE_UNIT_COVERAGE_DEBUG)
+        set(LOG_DEBUG_OPTION "--log-level=DEBUG")
+    endif()
 endif()
 
 add_test(
@@ -18,6 +23,7 @@ add_test(
         -C "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/ContextCache.cmake"
         -S "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}"
         -B "${CFORGE_UNIT_CURRENT_TEST_BINARY_DIR}/build"
+        ${LOG_DEBUG_OPTION}
         ${TRACE_OPTIONS}
     COMMAND_EXPAND_LISTS
 )

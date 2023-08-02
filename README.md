@@ -9,7 +9,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 ### Utility modules
 
-- [Work in progress] **CForgeAssert** — Provide a flexible assertion mechanism
+- [Work in progress] **CForgeAssert** — Provide a flexible and expressive assertion mechanism
 - [Not yet implemented] **CForgeConan** — Integrate the Conan package manager into a CMake project
 - [Not yet implemented] **CForgeDoc** — Generate rst-formatted documentation using Sphinx
 - [Not yet implemented] **CForgeFetchFmt** — Fetch the Fmt library using FetchContent
@@ -24,7 +24,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 - [Not yet implemented] **CForgeTargetEnableInterproceduralOptimization** — Enable Link-Time Optimizations for a target
 - [Not yet implemented] **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
 - [Not yet implemented] **CForgeTargetEnableStaticAnalyzers** — Enable static analysis for a target
-- **CForgeUnit** — Provide a unit-test and test coverage framework for CMake code
+- [Missing doc] **CForgeUnit** — Provide a unit-test and test coverage framework for CMake code
 
 ### Find modules
 
