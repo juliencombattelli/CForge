@@ -18,22 +18,17 @@ include(CForgeAssert)
 #[=======================================================================[.rst:
 .. cmake:command:: cforge_json_member_as_string
 
-  Convert a CMake JSON member list into a more readable JSONPath as specified by IETF.
-  Named members will add ``.member``, whereas indexes will add a subscript ``[index]`` to the result
-  variable.
+  Convert a CMake JSON member list into a more readable fragment identifier based on
+  JSON Pointers (RFC6901). Named members will add ``/member``, whereas indexes will
+  add a ``/index`` to the result variable. The identifier will start with # to denote
+  the root.
 
   .. code-block:: cmake
 
     cforge_json_member_as_string(
         RESULT_VARIABLE <out-var>
-        [ROOT_PREFIX <prefix>]
         MEMBER <member|index> [<member|index> ...]
     )
-
-  **Options**
-
-  ``ROOT_PREFIX <prefix>``
-    Prefix prepended to <out-var>. Defaults to "$" if not specified.
 
   **Usage example**
 
@@ -41,25 +36,20 @@ include(CForgeAssert)
 
     cforge_json_member_as_string(
         RESULT_VARIABLE MEMBER_STRING
-        ROOT_PREFIX "&"
         MEMBER abc def 2 ghi
     )
 
-  The member list ``abc def 2 ghi`` will be converted into ``&.abc.def[2].ghi`` and stored into
+  The member list ``abc def 2 ghi`` will be converted into ``#/abc/def/2/ghi`` and stored into
   ``MEMBER_STRING`` result variable.
 
 #]=======================================================================]
 function(cforge_json_member_as_string)
-    cmake_parse_arguments("ARG" "" "RESULT_VARIABLE;ROOT_PREFIX" "MEMBER" ${ARGN})
+    cmake_parse_arguments("ARG" "" "RESULT_VARIABLE" "MEMBER" ${ARGN})
     cforge_assert(CONDITION ARG_RESULT_VARIABLE AND ARG_MEMBER MESSAGE "Missing required argument")
-    set(MEMBER_PATH "$")
+    set(MEMBER_PATH "#")
     if(ARG_MEMBER)
         foreach(MEMBER IN LISTS ARG_MEMBER)
-            if (MEMBER MATCHES "^[0-9]+$")
-                set(MEMBER_PATH "${MEMBER_PATH}[${MEMBER}]")
-            else()
-                set(MEMBER_PATH "${MEMBER_PATH}.${MEMBER}")
-            endif()
+            set(MEMBER_PATH "${MEMBER_PATH}/${MEMBER}")
         endforeach()
     endif()
     set(${ARG_RESULT_VARIABLE} "${MEMBER_PATH}" PARENT_SCOPE)
