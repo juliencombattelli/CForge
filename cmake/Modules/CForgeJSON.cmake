@@ -83,7 +83,7 @@ endfunction()
   **Parameters**
 
   ``OPTIONAL``
-    Do not throw an error if the JSON member is not found
+    Do not throw an error if the JSON member is not found.
 
   **Usage example**
 
