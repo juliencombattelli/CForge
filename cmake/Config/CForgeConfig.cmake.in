@@ -1,0 +1,32 @@
+@PACKAGE_INIT@
+
+# Handle transitive dependencies
+# > No external dependency for now
+# > Obko/stm32-cmake might be added later on
+# include(CMakeFindDependencyMacro)
+# find_dependency(...)
+
+# Handle targets definition
+# > No target file
+# if(NOT TARGET CForge::CForge)
+#     include("${CMAKE_CURRENT_LIST_DIR}/CForgeTargets.cmake")
+# endif()
+
+# Add the module path
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/Modules)
+
+# Handle submodules research
+# > No component for now
+# foreach(component ${CForge_FIND_COMPONENTS})
+#     # For requested component, execute its "config" script
+#     include(
+#         ${CMAKE_CURRENT_LIST_DIR}/CForge${component}Targets.cmake
+#         RESULT_VARIABLE CForge_${component}_FOUND
+#   )
+# endforeach()
+
+# Include utility scripts
+# > No script automatically included for now
+# include("${CMAKE_CURRENT_LIST_DIR}/Modules/...")
+
+check_required_components(CForge)
