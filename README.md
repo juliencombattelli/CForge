@@ -64,3 +64,5 @@ There are multiple ways to integrate CForge into a CMake project:
 
 If you want to get involved and suggest some additional features, signal a bug or submit a patch, please create
 a pull request or open an issue on the [CForge Github repository](https://github.com/juliencombattelli/cforge).
+
+Please follow the guidelines in [CONTRIBUTING.md](./CONTRIBUTING.md).
