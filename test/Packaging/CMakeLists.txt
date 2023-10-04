@@ -1,0 +1,3 @@
+cforge_unit_add_test(TEST_SUITE Packaging TEST_CASE add_subdirectory)
+cforge_unit_add_test(TEST_SUITE Packaging TEST_CASE fetchcontent)
+cforge_unit_add_test(TEST_SUITE Packaging TEST_CASE cforgeconfig)

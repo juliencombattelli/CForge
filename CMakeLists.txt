@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16) # TODO Should be equal to smaller required version of provided modules
+cmake_minimum_required(VERSION 3.21)
 set(PROJECT_AUTHOR "Julien Combattelli")
 project(CForge
     VERSION 1.0.0
@@ -7,6 +7,10 @@ project(CForge
 )
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+# Propagate CForge module path to parent project if any
+if(NOT CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} PARENT_SCOPE)
+endif()
 
 ################################################################################
 ### Options definition
@@ -14,11 +18,11 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 include(CMakeDependentOption)
 
-option(CFORGE_ENABLE_TESTING "Download GoogleTest and enable the unit test suite execution" ON)
+option(CFORGE_ENABLE_TESTING "Download GoogleTest and enable the unit test suite execution" ${PROJECT_IS_TOP_LEVEL})
 cmake_dependent_option(CFORGE_ENABLE_TESTING_AT_CONF "Run test suite at configuration instead of during CTest phase" OFF CFORGE_ENABLE_TESTING OFF)
 cmake_dependent_option(CFORGE_ENABLE_COVERAGE "Enable test coverage report generation" OFF CFORGE_ENABLE_TESTING OFF)
 option(CFORGE_ENABLE_DOCUMENTATION "Generate the html documentation using Sphinx" OFF)
-option(CFORGE_ENABLE_CPACK "Enable packaging using CPack" ON)
+option(CFORGE_ENABLE_CPACK "Enable packaging using CPack" ${PROJECT_IS_TOP_LEVEL})
 
 # Disable CPack for in-source build/install
 if(CFORGE_ENABLE_CPACK AND (CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR))

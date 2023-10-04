@@ -4,6 +4,7 @@ add_subdirectory(CForgeAssert)
 add_subdirectory(CForgeJSON)
 add_subdirectory(CForgeTargetAddWarnings)
 add_subdirectory(CForgeUnit)
+add_subdirectory(Packaging)
 
 if(CFORGE_ENABLE_COVERAGE)
     find_package(LCOV REQUIRED)
