@@ -42,11 +42,11 @@ jobs:
 
       - name: Configure
         run: |
-          cmake -S . -B build -DCFORGE_ENABLE_TESTING=ON -DCFORGE_ENABLE_COVERAGE=ON -DCFORGE_ENABLE_DOCUMENTATION=ON
+          cmake -S . -B ../cforge-build -DCFORGE_ENABLE_TESTING=ON -DCFORGE_ENABLE_COVERAGE=ON -DCFORGE_ENABLE_DOCUMENTATION=ON
 
       - name: Build
         run: |
-          cmake --build build
+          cmake --build ../cforge-build
 
       - name: Remove Git-Bash Unix tools from PATH on Windows
         if: ${{ matrix.os == 'windows-latest' }}
@@ -55,7 +55,7 @@ jobs:
           Rename-Item "C:\\Program Files\\Git\\usr" "C:\\Program Files\\Git\\usr.bak"
 
       - name: Run tests
-        working-directory: build
+        working-directory: ../cforge-build
         run: |
           ctest --output-on-failure --verbose -C Release
 
@@ -67,7 +67,7 @@ jobs:
 
       - name: Generate docs
         run: |
-          cmake --build build --target doc
+          cmake --build ../cforge-build --target doc
 
       # - name: Upload
       #   uses: actions/upload-artifact@v1
