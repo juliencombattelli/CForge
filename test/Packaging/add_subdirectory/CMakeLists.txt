@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(cforge_packaging_add_subdirectory LANGUAGES NONE)
 
-add_subdirectory(external/cforge)
+add_subdirectory(external/${CFORGE_PROJECT_DIR_NAME})
 
 if(COMMAND cforge_assert)
     message(SEND_ERROR "CForge functions are wrongly imported without a proper include()")
