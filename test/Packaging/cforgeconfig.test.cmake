@@ -25,7 +25,13 @@ execute_process(
 execute_process(
     COMMAND ${CMAKE_COMMAND}
         --build ${cforge_BINARY_DIR}
-        --target all install
+    COMMAND_ERROR_IS_FATAL ANY
+)
+
+execute_process(
+    COMMAND ${CMAKE_COMMAND}
+        --build ${cforge_BINARY_DIR}
+        --target install
     COMMAND_ERROR_IS_FATAL ANY
 )
 
