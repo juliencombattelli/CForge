@@ -39,18 +39,29 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 ## Usage
 
-### Requirements
-
-CForge requires CMake 3.20+. Some dependencies might be needed depending on the modules used.
-Check the modules documentation for further information.
-
 ### Integration
 
 There are multiple ways to integrate CForge into a CMake project:
 
 - **CForgeConfig.cmake** — Install CForge into your system and use *find_package(CForge)* to locate it
 - **FetchContent** — Use CMake's *FetchContent* module to download CForge and include it to your project
-- **Manual add_subdirectory** (not recommended) — Manually add CForge to your project (eg. by copying the sources or as a git-submodules) and use *add_subdirectory()* to include it
+- **Manual add_subdirectory** — Manually add CForge to your project (eg. by copying the sources or as a git-submodules) and use *add_subdirectory()* to include it
+
+### Requirements
+
+Requirements depend on:
+- how CForge is used (see [Integration](#Integration) above),
+- which CForge modules are used.
+
+To build and install CForge, or to use CForge using add_subdirectory() or
+FetchContent, CMake 3.21+ is required. Other dependencies might be needed
+depending on the build options and modules used.
+
+CForge modules installed and used through the CForgeConfig.cmake might require a
+different CMake version (minimum required version for some modules can be lesser
+or greater than 3.21) and additional software requirements might be needed.
+
+Check the modules documentation for further information.
 
 ### Options
 
