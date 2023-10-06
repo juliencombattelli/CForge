@@ -14,3 +14,7 @@
 - Commit message titles length must not be too long but must be descriptive enough
   - In other words, long descriptive titles are preferable over short and vague ones
   - 80 characters is the recommended title length limit
+
+## Module rules
+
+Please follow the instructions in the [CForge module writing guide](./doc/manual/cforge-modules.7.rst).

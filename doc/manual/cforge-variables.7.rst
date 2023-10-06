@@ -5,7 +5,7 @@ cforge-variables(7)
 
 .. warning::
 
-  Page under contruction
+  Page under construction
 
 
 .. only:: html
