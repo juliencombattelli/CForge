@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.19)
 
-# CFORGE_UNIT_PROJECT: Top-level project that included CForgeUnit (analog to CMAKE_PROJECT_NAME)
+# CFORGE_UNIT_PROJECT: Project that included CForgeUnit
 if(NOT CFORGE_UNIT_PROJECT)
     set(CFORGE_UNIT_PROJECT ${PROJECT_NAME})
 endif()
 
 include_guard(GLOBAL)
 
+include(CForgeProjectInfo)
+
 include(CForgeAssert)
 
-option(CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION "Run CForgeUnit test suite at configuration instead of during CTest phase" OFF)
-option(CFORGE_UNIT_VERBOSE "Run CForgeUnit test suites using CTest verbose mode" OFF)
+option(${CFORGE_PROJECT_PREFIX}_UNIT_RUN_TESTS_AT_CONFIGURATION "Run CForgeUnit test suite at configuration instead of during CTest phase" OFF)
+option(${CFORGE_PROJECT_PREFIX}_UNIT_VERBOSE "Run CForgeUnit test suites using CTest verbose mode" OFF)
 
 # SCRIPT: script to run the test (unit test execution and assertions if applicable)
 # RUN_AT_CONFIGURATION: execute the test at configuration instead of during ctest execution
@@ -33,8 +35,8 @@ function(cforge_unit_add_test)
         set(ARG_LANGUAGES NONE)
     endif()
 
-    if(DEFINED CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION)
-        set(ARG_RUN_AT_CONFIGURATION ${CFORGE_UNIT_RUN_TESTS_AT_CONFIGURATION})
+    if(DEFINED ${CFORGE_PROJECT_PREFIX}_UNIT_RUN_TESTS_AT_CONFIGURATION)
+        set(ARG_RUN_AT_CONFIGURATION ${${CFORGE_PROJECT_PREFIX}_UNIT_RUN_TESTS_AT_CONFIGURATION})
     endif()
 
     if(NOT ARG_SCRIPT)
@@ -114,7 +116,7 @@ function(cforge_unit_run_tests)
     )
     # Run CTest
     set(ENV{CLICOLOR_FORCE} 1)
-    if(CFORGE_UNIT_VERBOSE)
+    if(${CFORGE_PROJECT_PREFIX}_UNIT_VERBOSE)
         set(CTEST_ARGS --output-on-failure --verbose)
     else()
         set(CTEST_ARGS --output-on-failure)

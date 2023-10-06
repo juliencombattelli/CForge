@@ -1,8 +1,3 @@
-# Requires COMPILE_WARNING_AS_ERROR
-cmake_minimum_required(VERSION 3.24)
-
-include_guard(GLOBAL)
-
 #[=================================================================================================[.rst:
 CForgeTargetAddWarnings
 -----------------------
@@ -28,6 +23,11 @@ It may not be implemented for all compilers. Checkout the
 for more informations.
 
 #]=================================================================================================]
+
+# Requires COMPILE_WARNING_AS_ERROR
+cmake_minimum_required(VERSION 3.24)
+
+include_guard(GLOBAL)
 
 function(_use_default_warning_config_file_if_arg_not_set CONFIG_FILE)
     if(NOT ${CONFIG_FILE})
