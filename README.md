@@ -9,7 +9,7 @@ build systems. Checkout the full CForge documentation on [ReadTheDocs](https://c
 
 ### Utility modules
 
-- **CForgeAssert** — Provide a simple assertion mechanism
+- [Missing doc] **CForgeAssert** — Provide a simple assertion mechanism
 - [Not yet implemented] **CForgeConan** — Integrate the Conan package manager into a CMake project
 - [Not yet implemented] **CForgeDoc** — Generate rst-formatted documentation using Sphinx
 - [Not yet implemented] **CForgeFetchFmt** — Fetch the Fmt library using FetchContent
