@@ -3,6 +3,7 @@ include(CForgeUnit)
 add_subdirectory(CForgeAssert)
 add_subdirectory(CForgeJSON)
 add_subdirectory(CForgeTargetAddWarnings)
+add_subdirectory(CForgeTargetEnableSanitizers)
 add_subdirectory(CForgeUnit)
 add_subdirectory(Packaging)
 

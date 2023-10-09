@@ -22,7 +22,7 @@ build systems. Checkout the full CForge documentation on [ReadTheDocs](https://c
 - **CForgeTargetAddWarnings** — Add warnings to a target from a dedicated CMake configuration file
 - [Not yet implemented] **CForgeTargetEnableCoverage** — Enable test coverage analysis for a target
 - [Not yet implemented] **CForgeTargetEnableLTO** — Enable Link-Time Optimizations for a target
-- [Not yet implemented] **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
+- **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
 - [Not yet implemented] **CForgeTargetEnableStaticAnalyzers** — Enable static analysis for a target
 - [Missing doc] **CForgeUnit** — Provide a unit-test and test coverage framework for CMake code
 
