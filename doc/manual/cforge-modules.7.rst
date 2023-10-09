@@ -13,10 +13,10 @@ CForge modules importation
 CForge provides multiple modules users can import after having included CForge
 into their own project. This can be usually be done in three ways:
 
-* with ``find_package(CForge)`` to locate a CForge local installation through the
-  provided CMake config file
-* with ``FetchContent`` API to download a specific revision or branch of CForge and
-  include it to the user project
+* with ``find_package(CForge)`` to locate a CForge local installation through
+  the provided CMake config file
+* with ``FetchContent`` API to download a specific revision or branch of CForge
+  and include it to the user project
 * with a manual ``add_subdirectory()`` of a CForge local source tree
 
 No matter the way users may rely on, modules must not be automatically imported.

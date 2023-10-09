@@ -2,8 +2,8 @@
 
 [![Build & Tests](https://github.com/juliencombattelli/CForge/actions/workflows/build.yml/badge.svg)](https://github.com/juliencombattelli/CForge/actions/workflows/build.yml)
 
-CForge is a collection of CMake scripts and modules to forge robust and toolable build systems.
-Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedocs.io).
+CForge is a collection of CMake scripts and modules to forge robust and toolable
+build systems. Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedocs.io).
 
 ## Features
 
@@ -21,7 +21,7 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 - [Not yet implemented] **CForgeTargetAddPrecompiledHeaders** — Add precompiled headers to a target
 - **CForgeTargetAddWarnings** — Add warnings to a target from a dedicated CMake configuration file
 - [Not yet implemented] **CForgeTargetEnableCoverage** — Enable test coverage analysis for a target
-- [Not yet implemented] **CForgeTargetEnableInterproceduralOptimization** — Enable Link-Time Optimizations for a target
+- [Not yet implemented] **CForgeTargetEnableLTO** — Enable Link-Time Optimizations for a target
 - [Not yet implemented] **CForgeTargetEnableSanitizers** — Enable sanitizers for a target
 - [Not yet implemented] **CForgeTargetEnableStaticAnalyzers** — Enable static analysis for a target
 - [Missing doc] **CForgeUnit** — Provide a unit-test and test coverage framework for CMake code
@@ -35,7 +35,8 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 ### Toolchains
 
-- [Not yet implemented] **Stm32Gcc** — A GCC-based toolchain for STM32 targets (using [ObKo/stm32-cmake](https://github.com/ObKo/stm32-cmake))
+- [Not yet implemented] **Stm32Gcc** — A GCC-based toolchain for STM32 targets
+  based on [ObKo/stm32-cmake](https://github.com/ObKo/stm32-cmake)
 
 ## Usage
 
@@ -43,9 +44,15 @@ Checkout the full CForge documentation on [ReadTheDocs](https://cforge.readthedo
 
 There are multiple ways to integrate CForge into a CMake project:
 
-- **CForgeConfig.cmake** — Install CForge into your system and use *find_package(CForge)* to locate it
-- **FetchContent** — Use CMake's *FetchContent* module to download CForge and include it to your project
-- **Manual add_subdirectory** — Manually add CForge to your project (eg. by copying the sources or as a git-submodules) and use *add_subdirectory()* to include it
+- **CForgeConfig.cmake** — Install CForge into your system and use
+  [find_package(CForge)](https://cmake.org/cmake/help/latest/command/find_package.html)
+  to locate it
+- **FetchContent** — Use CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html)
+  module to download CForge and include it to your project
+- **Manual add_subdirectory** — Manually add CForge to your project (eg. by
+  copying the sources or as a git-submodule) and use
+  [add_subdirectory()](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
+  to include it
 
 ### Requirements
 
@@ -66,14 +73,19 @@ Check the modules documentation for further information.
 ### Options
 
 - **CFORGE_ENABLE_TESTING** — Build the unit tests (default: ON)
-- **CFORGE_ENABLE_TESTING_AT_CONF** — Run CForge test suite at configuration instead of during CTest phase (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
-- [Not yet implemented] **CFORGE_ENABLE_FUZZING** — Build the fuzzy tests (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
-- **CFORGE_ENABLE_COVERAGE** — Build with test coverage analysis (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
-- **CFORGE_ENABLE_DOCUMENTATION** — Generate the html documentation using Sphinx (default: OFF)
+- **CFORGE_ENABLE_TESTING_AT_CONF** — Run CForge test suite at configuration
+  instead of during CTest phase (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
+- [Not yet implemented] **CFORGE_ENABLE_FUZZING** — Build the fuzzy tests
+  (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
+- **CFORGE_ENABLE_COVERAGE** — Build with test coverage analysis
+  (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
+- **CFORGE_ENABLE_DOCUMENTATION** — Generate the html documentation using Sphinx
+  (default: OFF)
 
 ## Contributing
 
-If you want to get involved and suggest some additional features, signal a bug or submit a patch, please create
-a pull request or open an issue on the [CForge Github repository](https://github.com/juliencombattelli/cforge).
+If you want to get involved and suggest some additional features, signal a bug
+or submit a patch, please create a pull request or open an issue on the
+[CForge Github repository](https://github.com/juliencombattelli/cforge).
 
 Please follow the guidelines in [CONTRIBUTING.md](./CONTRIBUTING.md).
