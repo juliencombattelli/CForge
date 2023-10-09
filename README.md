@@ -81,6 +81,9 @@ Check the modules documentation for further information.
   (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
 - **CFORGE_ENABLE_DOCUMENTATION** — Generate the html documentation using Sphinx
   (default: OFF)
+- [Not yet implemented] **CFORGE_ENABLE_MIN_VERSION_CHECK** — Add tests checking if the CMake minimum
+  required versions are correctly set in CForge modules, using [cmake_min_version](https://github.com/nlohmann/cmake_min_version)
+  (default: OFF, needs CFORGE_ENABLE_TESTING=ON)
 
 ## Contributing
 
