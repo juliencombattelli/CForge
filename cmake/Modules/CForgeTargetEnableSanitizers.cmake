@@ -36,16 +36,16 @@ include(CForgeProjectInfo)
 
 function(cforge_target_enable_sanitizers TARGET_NAME)
 
+    if (NOT TARGET ${TARGET_NAME})
+        message(FATAL_ERROR "${TARGET_NAME} is not a valid target")
+    endif()
+
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         set(SUPPORTED_SANITIZERS "address" "memory" "undefined" "thread")
     else()
         set(SUPPORTED_SANITIZERS "")
         message(VERBOSE "Sanitizers not supported for compiler of type ${CMAKE_CXX_COMPILER_ID}")
         return()
-    endif()
-
-    if (NOT TARGET ${TARGET_NAME})
-        message(FATAL_ERROR "${TARGET_NAME} is not a valid target")
     endif()
 
     set(SANITIZERS "")
