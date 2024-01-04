@@ -68,8 +68,9 @@ endif()
 
 set(ConfigPackageLocation lib/cmake/${PROJECT_NAME})
 
-# Generate CMake package config file
 include(CMakePackageConfigHelpers)
+
+# Generate CMake package config file
 configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/cmake/Config/${PROJECT_NAME}Config.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/Config/${PROJECT_NAME}Config.cmake
