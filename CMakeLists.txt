@@ -66,9 +66,7 @@ endif()
 ### Package config file generation
 ################################################################################
 
-include(GNUInstallDirs)
-
-set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+set(ConfigPackageLocation lib/cmake/${PROJECT_NAME})
 
 # Generate CMake package config file
 include(CMakePackageConfigHelpers)
