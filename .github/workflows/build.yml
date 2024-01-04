@@ -29,8 +29,8 @@ jobs:
 
       - name: Install CMake
         run: |
-          pip install --upgrade pip
-          pip install cmake
+          pip3 install --upgrade pip
+          pip3 install cmake
 
       - name: Install LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
@@ -38,6 +38,7 @@ jobs:
       - name: Install Sphinx and extensions
         working-directory: doc
         run: |
+          pip3 install setuptools
           pip3 install -r ./requirements.txt
 
       - name: Configure
