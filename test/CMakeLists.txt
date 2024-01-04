@@ -1,3 +1,5 @@
+enable_language(C CXX)
+
 include(CForgeUnit)
 
 add_subdirectory(CForgeAssert)

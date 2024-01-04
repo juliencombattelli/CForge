@@ -4,6 +4,7 @@ project(CForge
     VERSION 1.0.0
     DESCRIPTION "A collection of CMake scripts and modules to forge robust and toolable build systems "
     HOMEPAGE_URL "https://github.com/juliencombattelli/CForge"
+    LANGUAGES NONE
 )
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
