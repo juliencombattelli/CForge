@@ -64,7 +64,7 @@ To build and install CForge, or to use CForge using add_subdirectory() or
 FetchContent, CMake 3.21+ is required. Other dependencies might be needed
 depending on the build options and modules used.
 
-CForge modules installed and used through the CForgeConfig.cmake might require a
+CForge modules installed and used through CForgeConfig.cmake might require a
 different CMake version (minimum required version for some modules can be lesser
 or greater than 3.21) and additional software requirements might be needed.
 
