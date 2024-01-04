@@ -34,10 +34,14 @@ file_dir = pathlib.Path(os.path.realpath(__file__)).parent
 
 # Enabled extensions
 extensions = [
+    'sphinx.ext.autosectionlabel',
     'sphinx.ext.intersphinx',
     'sphinxcontrib.moderncmakedomain',
     'sphinxemoji.sphinxemoji'
 ]
+
+# Make sure the generated targets are unique
+autosectionlabel_prefix_document = True
 
 # Do not search source files in these directories
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

@@ -30,8 +30,11 @@ CForge defines some internal variables that should never be modified by the
 user. They must all start with the `_CFORGE_` prefix, and must not be visible to
 the user (unless strictly necessary).
 
-Variables dedicated to CForge must all start with the `CFORGE_` prefix. They
-must not be defined in CForge modules that may be imported by the user. Thus,
-the user should not be able to change them.
+Variables dedicated to CForge must all start with the `CFORGE_` prefix, and must
+not be visible to the user (unless strictly necessary). They may only be defined
+from one of CForge CMakeLists.txt or included script, but never from a module
+imported by the user (directly or transitively).
 
-Variables defined in a module
+For variables defined in a module imported by the user (either directly or
+transitively) refer to :ref:`manual/cforge-modules.7:Identifiers naming rules`
+in the CForge modules manual page.
