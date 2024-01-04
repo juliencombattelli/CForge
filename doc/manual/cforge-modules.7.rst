@@ -70,10 +70,10 @@ Past their end-of-recording statement, functions and macro can be called
 in any enclosing scope. In other words, once defined they are global.
 So it is very important to use unique names for them.
 Functions and macros defined in CForge modules must be named in lower_snake_case
-with the following format: ``cforge_<module_name>_<function_name>``.
+with the following format: ``cforge_<module-name>_<function-name>``.
 
-The variables defined with a global visibility (through the cache, parent scope,
-or any other mean) must be named in UPPER_SNAKE_CASE and must use the project
-prefix variable ``CFORGE_PROJECT_PREFIX`` to avoid name conflict.
+The variables defined with a global visibility (through the cache, macro,
+parent scope, or any other mean) must be named in UPPER_SNAKE_CASE and must use
+the project prefix variable ``CFORGE_PROJECT_PREFIX`` to avoid name conflict.
 Even if not strictly required, it is recommended to do the same for variables
 scoped to a function.
